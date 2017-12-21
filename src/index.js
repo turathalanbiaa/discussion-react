@@ -9,7 +9,7 @@ import {Provider} from 'react-redux';
 window.dispatch = store.dispatch;
 
 ReactDOM.render(
-    <Provider>
+    <Provider store={store}>
         <App />
     </Provider>, document.getElementById('root'));
 registerServiceWorker();
