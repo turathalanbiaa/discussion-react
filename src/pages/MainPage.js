@@ -3,7 +3,6 @@ import {connect} from 'react-redux';
 import {loginOrCreateFirebaseUser} from "../data/actions/manageUser";
 import firebase from './../Firebase';
 import PostList from "../component/PostList";
-let db = firebase.database().ref().child('posts');
 
 class MainPage extends Component
 {
@@ -20,19 +19,34 @@ class MainPage extends Component
         this.loadPosts();
     }
 
+
     loadPosts = () =>
     {
-        db.on("value" , snap =>
+        this.detach();
+        this.postsRef = firebase.database().ref().child('posts');
+        this.postsRef.on("value" , snap =>
         {
             if (snap.val() === null)
             {
                 this.setState({posts : []});
                 return;
             }
-
-            console.log('value changed' , snap.val());
             this.setState({posts : snap.val()})
         })
+    };
+
+
+    componentWillUnmount()
+    {
+        this.detach();
+    }
+
+    detach = () =>
+    {
+        if(this.postsRef !== null && this.postsRef !== undefined)
+        {
+            this.postsRef.off();
+        }
     };
 
     render()

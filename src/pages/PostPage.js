@@ -11,13 +11,49 @@ export default class PostPage extends Component
 
     componentDidMount()
     {
-        let postRef = "posts/" + this.props.id;
-        firebase.database().ref().child(postRef).on("value" , snap =>
+        this.loadPost(this.props.id);
+    }
+
+    componentWillReceiveProps(nextProp)
+    {
+        this.loadPost(nextProp.id);
+    }
+
+    componentWillUnmount()
+    {
+        this.detach();
+    }
+
+    loadPost = (id) =>
+    {
+        this.detach();
+
+        let postRefString = "posts/" + id;
+        this.postRef = firebase.database().ref().child(postRefString);
+        console.log('loading post');
+        this.postRef.on("value" , snap =>
         {
-            console.log(snap.val());
+            let post = snap.val();
+            
+            if(post === null)
+            {
+                this.setState({post : {}});
+                return;
+            }
+
             this.setState({post : snap.val()});
         });
-    }
+    };
+
+    detach = () =>
+    {
+        console.log(this.postRef);
+        if(this.postRef !== null && this.postRef !== undefined)
+        {
+            console.log('detaching');
+            this.postRef.off();
+        }
+    };
 
     render()
     {
