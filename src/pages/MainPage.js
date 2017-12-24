@@ -1,25 +1,60 @@
 import React , {Component} from 'react';
 import {connect} from 'react-redux';
 import {loginOrCreateFirebaseUser} from "../data/actions/manageUser";
+import firebase from './../Firebase';
+import PostList from "../component/PostList";
+let db = firebase.database().ref().child('posts');
 
 class MainPage extends Component
 {
 
+    constructor(props)
+    {
+        super(props);
+        this.state = {posts : []};
+    }
+
     componentDidMount()
     {
         this.props.dispatch(loginOrCreateFirebaseUser());
+        this.loadPosts();
     }
+
+    loadPosts = () =>
+    {
+        db.on("value" , snap =>
+        {
+            if (snap.val() === null)
+            {
+                this.setState({posts : []});
+                return;
+            }
+
+            console.log('value changed' , snap.val());
+            this.setState({posts : snap.val()})
+        })
+    };
 
     render()
     {
         return(
             <div>
-                {this.props.firebaseError && <h1>An Error Happen , Contact Management</h1>}
-                {this.props.firebaseProcessing && <h1>Processing</h1>}
-                {this.props.firebaseLogin && <h1>User Logged In</h1>}
+                <h1>Main Page</h1>
+
+                <hr/>
+
+                <PostList posts={this.state.posts}/>
+
+                <hr/>
+
+                <pre>
+                    {this.prop}
+                </pre>
+
             </div>
         )
     }
+
 }
 
 export default connect((store) =>
