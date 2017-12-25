@@ -1,34 +1,53 @@
-import React , {Component} from 'react';
+import React, {Component} from 'react';
 import MainPage from './MainPage';
-import {BrowserRouter , Route , Link} from 'react-router-dom';
+import {BrowserRouter, Route} from 'react-router-dom';
 import PostPage from "./PostPage";
 import NewPostPage from "./NewPostPage";
+import Home from "./Home";
+import {connect} from 'react-redux';
+import {loginOrCreateFirebaseUser} from "../data/actions/manageUser";
 
-export default class RouterPage extends Component
+
+class RouterPage extends Component
 {
+
+    componentDidMount()
+    {
+        this.props.dispatch(loginOrCreateFirebaseUser());
+    }
+
 
     render()
     {
         return (
             <BrowserRouter>
-                <div>
-
-                    <ul>
-                        <li><Link to="/">Home</Link></li>
-                        <li><Link to="/posts/some-post-id">About</Link></li>
-                        <li><Link to="/new-post">Write</Link></li>
-                    </ul>
-
-                    <hr/>
-
-                    <Route exact path="/" component={() => <MainPage/>}/>
-                    <Route path="/posts/:id" component={this.postPageRoute}/>
-                    <Route exact path="/new-post" component={() => <NewPostPage/>}/>
-
-                </div>
+                {
+                    this.props.firebaseLogin ?  this.routes() : this.notLoggedIn()
+                }
             </BrowserRouter>
         )
     }
+
+    routes = () =>
+    {
+        return (
+            <div>
+
+                <Route exact path="/" component={() => <Home/>}/>
+                <Route exact path="/section/:sectionId/posts/:id" component={this.postPageRoute}/>
+                <Route exact path="/section/:id" component={this.sectionPageRoute}/>
+                <Route exact path="/new-post" component={() => <NewPostPage/>}/>
+
+            </div>
+        )
+    };
+
+    notLoggedIn = () =>
+    {
+        return (
+            this.props.firebaseProcessing ? <h1>Please Wait ...</h1> : <h1>Cannot Login</h1>
+        )
+    };
 
 
     postPageRoute = (routeData) =>
@@ -37,6 +56,24 @@ export default class RouterPage extends Component
         if (params.id)
             return <PostPage id={params.id}/>;
         return null;
+    };
+
+    sectionPageRoute = (routeData) =>
+    {
+        let params = routeData.match.params;
+        if (params.id)
+            return <MainPage id={params.id}/>;
+        return null;
     }
 
 }
+
+export default connect((store) =>
+{
+    return {
+        firebaseLogin : store.user.isLogin ,
+        firebaseUser : store.user.user ,
+        firebaseProcessing : store.user.processing ,
+        firebaseError : store.user.error
+    }
+})(RouterPage)

@@ -4,6 +4,8 @@ export function loginOrCreateFirebaseUser()
 {
     return function(dispatch)
     {
+        dispatch({type : 'LOGGING_USER'});
+
         firebase.auth().onAuthStateChanged(user =>
         {
             let email = window.user.email;
@@ -31,6 +33,12 @@ export function loginOrCreateFirebaseUser()
                     dispatch({type : 'CREATING_USER'});
                     firebase.auth().createUserWithEmailAndPassword(email , password).then((user) =>
                     {
+                        firebase.database().ref().child(`users/${user.uid}`).set({
+                            gender : window.user.gender ,
+                            level : window.user.level ,
+                            type : window.user.type
+                        });
+
                         dispatch({type : 'USER_CREATED' , payload : user});
                     }).catch(() =>
                     {

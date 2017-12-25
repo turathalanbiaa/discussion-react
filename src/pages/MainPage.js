@@ -1,10 +1,9 @@
 import React , {Component} from 'react';
 import {connect} from 'react-redux';
-import {loginOrCreateFirebaseUser} from "../data/actions/manageUser";
 import firebase from './../Firebase';
 import PostList from "../component/PostList";
 
-class MainPage extends Component
+export default class MainPage extends Component
 {
 
     constructor(props)
@@ -15,7 +14,6 @@ class MainPage extends Component
 
     componentDidMount()
     {
-        this.props.dispatch(loginOrCreateFirebaseUser());
         this.loadPosts();
     }
 
@@ -70,13 +68,3 @@ class MainPage extends Component
     }
 
 }
-
-export default connect((store) =>
-{
-    return {
-        firebaseLogin : store.user.isLogin ,
-        firebaseUser : store.user.user ,
-        firebaseProcessing : store.user.processing ,
-        firebaseError : store.user.error
-    }
-})(MainPage)
