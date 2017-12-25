@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import './App.css';
-import MainPage from './pages/SectionPage';
 import RouterPage from "./pages/RouterPage";
 
 class App extends Component

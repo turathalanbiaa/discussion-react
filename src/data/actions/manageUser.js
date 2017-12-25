@@ -31,15 +31,17 @@ export function loginOrCreateFirebaseUser()
                 }).catch(() =>
                 {
                     dispatch({type : 'CREATING_USER'});
-                    firebase.auth().createUserWithEmailAndPassword(email , password).then((user) =>
+                    firebase.auth().createUserWithEmailAndPassword(email , password).then(async (user) =>
                     {
+                        await user.updateProfile({displayName: window.user.name});
+
                         firebase.database().ref().child(`users/${user.uid}`).set({
-                            gender : window.user.gender ,
-                            level : window.user.level ,
-                            type : window.user.type
+                            gender: window.user.gender,
+                            level: window.user.level,
+                            type: window.user.type
                         });
 
-                        dispatch({type : 'USER_CREATED' , payload : user});
+                        dispatch({type: 'USER_CREATED', payload: user});
                     }).catch(() =>
                     {
                         dispatch({type : 'CANNOT_CREATE_USER'});

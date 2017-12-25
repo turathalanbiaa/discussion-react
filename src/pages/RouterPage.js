@@ -36,8 +36,8 @@ class RouterPage extends Component
                 <Route exact path="/" component={() => <Home/>}/>
                 <Route exact path="/posts/:id" component={this.postPageRoute}/>
                 <Route exact path="/section/:id" component={this.sectionPageRoute}/>
-                <Route exact path="/new-post" component={() => <NewPostPage/>}/>
-                <Route exact path="/my-posts" component={() => <SectionPage myPosts />}/>
+                <Route exact path="/new-post" component={ () => <NewPostPage/>}/>
+                <Route exact path="/my-posts" component={ () => <SectionPage myPosts /> }/>
 
             </div>
         )

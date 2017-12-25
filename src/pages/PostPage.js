@@ -1,5 +1,6 @@
 import React , {Component} from 'react';
 import firebase from './../Firebase';
+import Post from "../component/Post";
 
 export default class PostPage extends Component
 {
@@ -60,10 +61,8 @@ export default class PostPage extends Component
         return (
             <div>
                 <h1>Post Page</h1>
-                <span>ID : {this.props.id}</span>
-                {
-                    this.state.post && <pre>{JSON.stringify(this.state.post)}</pre>
-                }
+                <hr/>
+                {this.state.post && <Post id={this.props.id} post={this.state.post}/>}
             </div>
         )
     }

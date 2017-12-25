@@ -1,5 +1,4 @@
-import React , {Component} from 'react';
-import {connect} from 'react-redux';
+import React, {Component} from 'react';
 import firebase from './../Firebase';
 import PostList from "../component/PostList";
 

@@ -70,10 +70,9 @@ export default class NewPostPage extends Component
                 gender: user.gender,
                 type: user.type,
                 level: user.level,
-                userId: user.uid
+                userId: user.uid ,
+                userDisplayName : user.displayName,
             };
-
-            console.log(user , post);
 
             let newPost = firebase.database().ref().child("posts").push();
             await newPost.set(post);
