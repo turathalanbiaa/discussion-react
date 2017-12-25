@@ -14,7 +14,7 @@ export default class PostList extends Component
                     {
                         return (<li key={item}>
                             <div>
-                                <Link to={"posts/" + item}>Something Just Like This</Link>
+                                <Link to={"/posts/" + item}>Something Just Like This</Link>
                                 {item + " - " + this.props.posts[item].title}
                             </div>
                         </li>)

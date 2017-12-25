@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import MainPage from './MainPage';
+import SectionPage from './SectionPage';
 import {BrowserRouter, Route} from 'react-router-dom';
 import PostPage from "./PostPage";
 import NewPostPage from "./NewPostPage";
@@ -34,9 +34,10 @@ class RouterPage extends Component
             <div>
 
                 <Route exact path="/" component={() => <Home/>}/>
-                <Route exact path="/section/:sectionId/posts/:id" component={this.postPageRoute}/>
+                <Route exact path="/posts/:id" component={this.postPageRoute}/>
                 <Route exact path="/section/:id" component={this.sectionPageRoute}/>
                 <Route exact path="/new-post" component={() => <NewPostPage/>}/>
+                <Route exact path="/my-posts" component={() => <SectionPage myPosts />}/>
 
             </div>
         )
@@ -62,9 +63,9 @@ class RouterPage extends Component
     {
         let params = routeData.match.params;
         if (params.id)
-            return <MainPage id={params.id}/>;
+            return <SectionPage id={params.id}/>;
         return null;
-    }
+    };
 
 }
 

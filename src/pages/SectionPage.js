@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import firebase from './../Firebase';
 import PostList from "../component/PostList";
 
-export default class MainPage extends Component
+export default class SectionPage extends Component
 {
 
     constructor(props)
@@ -21,7 +21,15 @@ export default class MainPage extends Component
     loadPosts = () =>
     {
         this.detach();
-        this.postsRef = firebase.database().ref().child('posts');
+        if(this.props.myPosts)
+        {
+            this.postsRef = firebase.database().ref().child('posts').orderByChild("userId").equalTo(firebase.auth().currentUser.uid);
+        }
+        else
+        {
+            this.postsRef = firebase.database().ref().child('posts').orderByChild("type").equalTo(this.props.id);
+        }
+
         this.postsRef.on("value" , snap =>
         {
             if (snap.val() === null)
