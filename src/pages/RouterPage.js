@@ -50,7 +50,6 @@ class RouterPage extends Component
         )
     };
 
-
     postPageRoute = (routeData) =>
     {
         let params = routeData.match.params;

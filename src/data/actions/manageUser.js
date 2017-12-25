@@ -4,26 +4,27 @@ export function loginOrCreateFirebaseUser()
 {
     return function(dispatch)
     {
+        let email = window.user.email;
+        let password = window.user.password;
+        let name = window.user.name;
+
+
         dispatch({type : 'LOGGING_USER'});
 
         firebase.auth().onAuthStateChanged(user =>
         {
-            let email = window.user.email;
-            let password = window.user.password;
-
             if (user)
             {
-                if (!isFirebaseUserIsTurathUser())
-                {
-                    firebase.auth().signOut();
-                    dispatch({type : 'FIREBASE_USER_NOT_TURATH_USER'});
-                }
-                else
-                    dispatch({type : 'USER_ALREADY_LOGGED_IN' , payload : user});
+                loginCurrentUserOrSignOutOnDifferentUser(dispatch , user , name , email);
             }
             else
             {
-                dispatch({type : 'LOGGING_USER'});
+                if(email.trim() === "" || password.trim() === "")
+                {
+                    dispatch({type : 'CANNOT_LOGIN'});
+                    return;
+                }
+
                 firebase.auth().signInWithEmailAndPassword(email , password).
                 then((user)=>
                 {
@@ -33,15 +34,7 @@ export function loginOrCreateFirebaseUser()
                     dispatch({type : 'CREATING_USER'});
                     firebase.auth().createUserWithEmailAndPassword(email , password).then(async (user) =>
                     {
-                        await user.updateProfile({displayName: window.user.name});
-
-                        firebase.database().ref().child(`users/${user.uid}`).set({
-                            gender: window.user.gender,
-                            level: window.user.level,
-                            type: window.user.type
-                        });
-
-                        dispatch({type: 'USER_CREATED', payload: user});
+                        createUser(dispatch , user , name);
                     }).catch(() =>
                     {
                         dispatch({type : 'CANNOT_CREATE_USER'});
@@ -52,9 +45,41 @@ export function loginOrCreateFirebaseUser()
     }
 }
 
-function isFirebaseUserIsTurathUser()
+function isFirebaseUserIsTurathUser(email , user)
 {
-    let email = window.user.email;
-    let user = firebase.auth().currentUser;
-    return (user && user.email === email);
+    return (user && (user.email === email || email === ""));
+}
+
+function saveUserToDatabase(uid)
+{
+    firebase.database().ref().child(`users/${uid}`).set({
+        gender: window.user.gender,
+        level: window.user.level,
+        type: window.user.type
+    });
+}
+
+function loginCurrentUserOrSignOutOnDifferentUser(dispatch , user , name , email)
+{
+    if (!isFirebaseUserIsTurathUser(email , user))
+    {
+        firebase.auth().signOut();
+        dispatch({type : 'FIREBASE_USER_NOT_TURATH_USER'});
+    }
+    else
+    {
+        if(name !== user.displayName)
+        {
+            user.updateProfile({displayName:name});
+        }
+        dispatch({type : 'USER_ALREADY_LOGGED_IN' , payload : user});
+    }
+}
+
+async function createUser(dispatch , user, name)
+{
+    await user.updateProfile({displayName: name});
+    await saveUserToDatabase(user.uid);
+
+    dispatch({type: 'USER_CREATED', payload: user});
 }

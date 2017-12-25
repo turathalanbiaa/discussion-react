@@ -29,15 +29,30 @@
     console.log('%c انتبه ', 'color: red ; font-size : 34px;font-weight : bold');
     console.log('%c ' + message, 'color: black ; font-size : 20px');
 
+    function getSearchParameters() {
+        var prmstr = window.location.search.substr(1);
+        return prmstr !== null && prmstr !== "" ? transformToAssocArray(prmstr) : {};
+    }
+
+    function transformToAssocArray( prmstr ) {
+        var params = {};
+        var prmarr = prmstr.split("&");
+        for ( var i = 0; i < prmarr.length; i++) {
+            var tmparr = prmarr[i].split("=");
+            params[tmparr[0]] = tmparr[1];
+        }
+        return params;
+    }
+
+    var params = getSearchParameters();
 
     window.user = {
-        name : 'Ali Faris' ,
-        email : 'email_3@mail.com' ,
-        password : 'password' ,
-        type : '1',
-        pageType : '1' ,
-        level : '1' ,
-        gender : '1' ,
+        name : params.name ? params.name : '' ,
+        email : params.email ? params.email : '' ,
+        password : params.password ? params.password : '' ,
+        type : params.type ? params.type : '',
+        level : params.level ? params.level : '' ,
+        gender : params.gender ? params.gender : '' ,
     }
 </script>
 

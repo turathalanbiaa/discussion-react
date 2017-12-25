@@ -28,6 +28,9 @@ export default function(state=initialState , action)
         case 'CANNOT_CREATE_USER':
             return {isLogin : false , processing : false , error : true};
 
+        case 'CANNOT_LOGIN':
+            return {isLogin : false , processing : false , error : true};
+
         default : return {isLogin : false , processing : false , error : false};
     }
 }
