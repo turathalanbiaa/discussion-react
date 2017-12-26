@@ -6,7 +6,7 @@ export default class PostList extends Component
     render()
     {
         let keys = Object.keys(this.props.posts);
-        console.log(this.props.posts);
+
         return (
             <ul>
                 {
