@@ -2,30 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="bf00156b-5f46-4516-8bf7-6e6908348801" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/images/error.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/images/loading_1.gif" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/images/loading_2.gif" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/images/loading_3.gif" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/images/loading_4.gif" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/images/logo.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/images/section_1.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/component/Layout/AllRoutes.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/component/Layout/ErrorLogin.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/component/Layout/Logging.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/component/Posts/PostItem.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/component/SectionCard.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/component/PostList.js" afterPath="$PROJECT_DIR$/src/component/Posts/PostList.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/package-lock.json" afterPath="$PROJECT_DIR$/package-lock.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/package.json" afterPath="$PROJECT_DIR$/package.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/index.html" afterPath="$PROJECT_DIR$/public/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/App.css" afterPath="$PROJECT_DIR$/src/App.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/data/actions/manageUser.js" afterPath="$PROJECT_DIR$/src/data/actions/manageUser.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/index.js" afterPath="$PROJECT_DIR$/src/index.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/pages/Home.js" afterPath="$PROJECT_DIR$/src/pages/Home.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/pages/PostPage.js" afterPath="$PROJECT_DIR$/src/pages/PostPage.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/pages/RouterPage.js" afterPath="$PROJECT_DIR$/src/pages/RouterPage.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/pages/SectionPage.js" afterPath="$PROJECT_DIR$/src/pages/SectionPage.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/component/Posts/PostItem.js" afterPath="$PROJECT_DIR$/src/component/Posts/PostItem.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/component/Posts/PostList.js" afterPath="$PROJECT_DIR$/src/component/Posts/PostList.js" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -54,8 +32,8 @@
       <file leaf-file-name="PostList.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/component/Posts/PostList.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="30">
-              <caret line="3" column="21" lean-forward="false" selection-start-line="3" selection-start-column="21" selection-end-line="3" selection-end-column="21" />
+            <state relative-caret-position="525">
+              <caret line="37" column="18" lean-forward="false" selection-start-line="37" selection-start-column="18" selection-end-line="37" selection-end-column="18" />
               <folding />
             </state>
           </provider>
@@ -64,9 +42,11 @@
       <file leaf-file-name="PostItem.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/component/Posts/PostItem.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
+            <state relative-caret-position="630">
+              <caret line="42" column="16" lean-forward="false" selection-start-line="42" selection-start-column="16" selection-end-line="42" selection-end-column="16" />
+              <folding>
+                <element signature="e#0#40#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -114,6 +94,7 @@
         <option value="$PROJECT_DIR$/src/pages/Home.js" />
         <option value="$PROJECT_DIR$/src/component/SectionCard.js" />
         <option value="$PROJECT_DIR$/src/pages/SectionPage.js" />
+        <option value="$PROJECT_DIR$/src/component/Posts/PostList.js" />
         <option value="$PROJECT_DIR$/src/component/Posts/PostItem.js" />
       </list>
     </option>
@@ -252,12 +233,12 @@
       <workItem from="1514091785363" duration="16618000" />
       <workItem from="1514177667708" duration="16378000" />
       <workItem from="1514263963841" duration="5159000" />
-      <workItem from="1514358980580" duration="11049000" />
+      <workItem from="1514358980580" duration="13043000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="56906000" />
+    <option name="totallyTimeSpent" value="58900000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1920" height="1057" extended-state="0" />
@@ -575,7 +556,7 @@
         <state relative-caret-position="555">
           <caret line="37" column="31" lean-forward="false" selection-start-line="37" selection-start-column="31" selection-end-line="37" selection-end-column="31" />
           <folding>
-            <element signature="e#0#40#0" expanded="true" />
+            <element signature="e#0#40#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -585,7 +566,7 @@
         <state relative-caret-position="375">
           <caret line="25" column="8" lean-forward="false" selection-start-line="25" selection-start-column="8" selection-end-line="25" selection-end-column="25" />
           <folding>
-            <element signature="e#0#39#0" expanded="true" />
+            <element signature="e#0#39#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -652,6 +633,14 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/component/Posts/PostList.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="525">
+          <caret line="37" column="18" lean-forward="false" selection-start-line="37" selection-start-column="18" selection-end-line="37" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/pages/SectionPage.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="725">
@@ -662,19 +651,13 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/component/Posts/PostList.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="3" column="21" lean-forward="false" selection-start-line="3" selection-start-column="21" selection-end-line="3" selection-end-column="21" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/component/Posts/PostItem.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+        <state relative-caret-position="630">
+          <caret line="42" column="16" lean-forward="false" selection-start-line="42" selection-start-column="16" selection-end-line="42" selection-end-column="16" />
+          <folding>
+            <element signature="e#0#40#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
