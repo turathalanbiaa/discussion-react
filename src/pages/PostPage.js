@@ -94,7 +94,9 @@ export default class PostPage extends Component
 
                 <hr/>
                 <h1>Comments</h1>
-                {<pre>{JSON.stringify(this.state.comments)}</pre>}
+                {
+                    <pre>{JSON.stringify(this.state.comments)}</pre>
+                }
                 <hr/>
 
                 <label>Write Your Comment</label>

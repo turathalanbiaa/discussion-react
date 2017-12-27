@@ -8,6 +8,10 @@ export function loginOrCreateFirebaseUser()
         let password = window.user.password;
         let name = window.user.name;
 
+        let gender = window.user.gender ;
+        let type = window.user.type;
+        let level = window.user.level;
+
 
         dispatch({type : 'LOGGING_USER'});
 
@@ -31,6 +35,12 @@ export function loginOrCreateFirebaseUser()
                     dispatch({type : 'USER_LOGGED_IN' , payload : user});
                 }).catch(() =>
                 {
+                    if(!gender || !type || !level)
+                    {
+                        dispatch({type : 'CANNOT_CREATE_USER'});
+                        return;
+                    }
+                    
                     dispatch({type : 'CREATING_USER'});
                     firebase.auth().createUserWithEmailAndPassword(email , password).then(async (user) =>
                     {

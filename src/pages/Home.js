@@ -1,25 +1,57 @@
-import React , {Component} from 'react';
-import {Link} from 'react-router-dom';
+import React, {Component} from 'react';
+import {Segment, Grid, Divider} from 'semantic-ui-react';
+import SectionCard from "../component/SectionCard";
+
 
 export default class Home extends Component
 {
 
     render()
     {
-        return(
-            <ul>
+        return (
+            <div>
 
-                <li><Link to="/section/1">Men</Link></li>
-                <li><Link to="/section/2">Women / Management</Link></li>
-                <li><Link to="/section/3">Women / Scientific</Link></li>
-                <li><Link to="/section/4">Discussion / Introduction Level</Link></li>
-                <li><Link to="/section/5">Discussion / First Level</Link></li>
-                <li><Link to="/section/6">Discussion / Second Level</Link></li>
-                <li><Link to="/section/7">Discussion / Third Level</Link></li>
+                <Segment style={{minHeight : '500px'}}>
 
-                <li><Link to="/my-posts">My Posts</Link></li>
+                    <Divider hidden/>
 
-            </ul>
+                    <Grid stackable columns={3} textAlign={'center'}>
+
+                        <Grid.Column textAlign="center">
+                            <SectionCard href="/section/1" image="section_1.jpg"/>
+                        </Grid.Column>
+
+                        <Grid.Column textAlign="center">
+                            <SectionCard href="/section/2" image="section_1.jpg"/>
+                        </Grid.Column>
+
+
+                        <Grid.Column textAlign="center">
+                            <SectionCard href="/section/3" image="section_1.jpg"/>
+                        </Grid.Column>
+
+                        <Grid.Column textAlign="center">
+                            <SectionCard href="/section/4" image="section_1.jpg"/>
+                        </Grid.Column>
+
+                        <Grid.Column textAlign="center">
+                            <SectionCard href="/section/5" image="section_1.jpg"/>
+                        </Grid.Column>
+
+                        <Grid.Column textAlign="center">
+                            <SectionCard href="/section/6" image="section_1.jpg"/>
+                        </Grid.Column>
+
+                        <Grid.Column textAlign="center">
+                            <SectionCard href="/section/7" image="section_1.jpg"/>
+                        </Grid.Column>
+
+                    </Grid>
+
+
+                </Segment>
+
+            </div>
         )
     }
 

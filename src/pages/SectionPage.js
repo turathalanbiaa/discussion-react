@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import firebase from './../Firebase';
-import PostList from "../component/PostList";
+import PostList from "../component/Posts/PostList";
+import {Button , Segment} from 'semantic-ui-react';
+import {Link} from 'react-router-dom';
 
 export default class SectionPage extends Component
 {
@@ -58,17 +60,13 @@ export default class SectionPage extends Component
     {
         return(
             <div>
-                <h1>Main Page</h1>
 
-                <hr/>
+                <Link class="ui blue large button" to="/">الرئيسية</Link>
+                <Segment style={{minHeight : '500px'}}>
 
-                <PostList posts={this.state.posts}/>
+                    <PostList posts={this.state.posts}/>
 
-                <hr/>
-
-                <pre>
-                    {this.prop}
-                </pre>
+                </Segment>
 
             </div>
         )
