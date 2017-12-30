@@ -5,8 +5,9 @@ import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import draftToHtml from 'draftjs-to-html'
 import firebase from './../Firebase';
 import FirebaseUtils from "../utils/FirebaseUtils";
+import {Segment , Form} from 'semantic-ui-react';
 
-export default class NewPostPage extends Component
+export default class WritePostPage extends Component
 {
 
     constructor(props)
@@ -23,7 +24,7 @@ export default class NewPostPage extends Component
 
     onTitleChanged = (event) =>
     {
-        this.setState({title : event.target.value});
+        this.setState({title: event.target.value});
     };
 
     onFileChanged = (event) =>
@@ -35,20 +36,36 @@ export default class NewPostPage extends Component
     render()
     {
         return (
-            <div style={{width: '80%', margin: 'auto'}}>
+            <Segment style={{minHeight: '500px'}}>
 
-                <input type="text" onChange={this.onTitleChanged}/>
+                <Form>
 
-                <Editor
-                    editorClassName="editor-class"
-                    onEditorStateChange={this.onEditorStateChange}
-                />
+                    <Form.Field>
+                        <label>عنوان المنشور</label>
+                        <input type="text" onChange={this.onTitleChanged}/>
+                    </Form.Field>
 
-                <input type="file" onChange={this.onFileChanged}/>
 
-                <button onClick={this.save}>Save</button>
+                    <Form.Field>
+                        <label>المحتوى</label>
+                        <Editor
+                            editorClassName="editor-class"
+                            onEditorStateChange={this.onEditorStateChange}
+                        />
+                    </Form.Field>
 
-            </div>
+                    <Form.Field>
+                        <label>ارفق صورة (اختياري)</label>
+                        <input type="file" onChange={this.onFileChanged}/>
+                    </Form.Field>
+
+
+                    <Form.Field>
+                        <button className="ui large violet button" onClick={this.save}>انشر</button>
+                    </Form.Field>
+                </Form>
+
+            </Segment>
         )
     }
 
@@ -59,6 +76,7 @@ export default class NewPostPage extends Component
 
     async savePostToDB()
     {
+        console.log(firebase.database.ServerValue.TIMESTAMP);
 
         try
         {
@@ -68,10 +86,11 @@ export default class NewPostPage extends Component
                 content: this.state.content,
                 photoUrl: null,
                 gender: user.gender,
-                type: user.type,
+                type: this.props.sectionId,
                 level: user.level,
-                userId: user.uid ,
-                userDisplayName : user.displayName,
+                userId: user.uid,
+                userDisplayName: user.displayName,
+                time: firebase.database.ServerValue.TIMESTAMP
             };
 
             let newPost = firebase.database().ref().child("posts").push();

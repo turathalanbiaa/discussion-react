@@ -1,43 +1,35 @@
-import React , {Component} from 'react';
-import {Link} from 'react-router-dom';
+import React, {Component} from 'react';
+import {Grid} from 'semantic-ui-react';
 import PostItem from "./PostItem";
 
 export default class PostList extends Component
 {
     render()
     {
+
         let keys = Object.keys(this.props.posts);
 
         return (
-            <div style={{
-                display: 'flex' ,
-                flex : 7 ,
-                justifyContent : 'space-between'
-            }}>
+            <Grid columns={2} stackable>
 
-                <PostItem
-                    imageUrl="/images/section_1.jpg"
-                    title="Some Title Some Title  Some Title  Some Title  Some Title "
-                    shortDescription="SOMETHING SOMETHING SOMETHING SOMETHING SOMETHING SOMETHING SOMETHING SOMETHING SOMETHING SOMETHING SOMETHING SOMETHING SOMETHING SOMETHING SOMETHING SOMETHING"
-                    userName="Ali Faris"
-                    date="2017-12-12"
-                />
-
-                <PostItem
-                    imageUrl="/images/section_1.jpg"
-                    shortDescription="SOMETHING SOMETHING SOMETHING SOMETHING SOMETHING SOMETHING SOMETHING SOMETHING SOMETHING SOMETHING SOMETHING SOMETHING SOMETHING SOMETHING SOMETHING SOMETHING"
-                    userName="Ali Faris"
-                    date="2017-12-12"
-                />
-
-                <PostItem
-                    imageUrl="/images/section_1.jpg"
-                    shortDescription="SOMETHING SOMETHING SOMETHING SOMETHING SOMETHING SOMETHING SOMETHING SOMETHING SOMETHING SOMETHING SOMETHING SOMETHING SOMETHING SOMETHING SOMETHING SOMETHING"
-                    userName="Ali Faris"
-                    date="2017-12-12"
-                />
-
-            </div>
+                {
+                    keys.map(item =>
+                    {
+                        let post = this.props.posts[item];
+                        return (
+                            <Grid.Column key={item}>
+                                <PostItem
+                                    imageUrl={post.photoUrl}
+                                    title={post.title}
+                                    shortDescription={post.content}
+                                    userName={post.userName}
+                                    date={post.time}
+                                />
+                            </Grid.Column>
+                        )
+                    })
+                }
+            </Grid>
         )
     }
 }

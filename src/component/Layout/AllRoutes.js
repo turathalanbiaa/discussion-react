@@ -1,7 +1,7 @@
 import React , {Component} from 'react';
 import {Route} from 'react-router-dom';
 import Home from "../../pages/Home";
-import NewPostPage from "../../pages/NewPostPage";
+import WritePostPage from "../../pages/WritePostPage";
 import SectionPage from "../../pages/SectionPage";
 import PostPage from "../../pages/PostPage";
 
@@ -16,7 +16,7 @@ export default class AllRoutes extends Component
                 <Route exact path="/" component={() => <Home/>}/>
                 <Route exact path="/posts/:id" component={this.postPageRoute}/>
                 <Route exact path="/section/:id" component={this.sectionPageRoute}/>
-                <Route exact path="/new-post" component={ () => <NewPostPage/>}/>
+                <Route exact path="/write/:id" component={ () => <WritePostPage/>}/>
                 <Route exact path="/my-posts" component={ () => <SectionPage myPosts /> }/>
 
             </div>
@@ -39,5 +39,11 @@ export default class AllRoutes extends Component
         return null;
     };
 
+    writePost = (routeData) =>
+    {
+        let params = routeData.match.params;
+        if (params.sectionId)
+            return <WritePostPage sectionId={params.sectionId}/>
+    }
 
 }

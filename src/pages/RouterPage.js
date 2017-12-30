@@ -31,7 +31,7 @@ class RouterPage extends Component
                         </Header>
                     </div>
 
-                    <Container>
+                    <Container className="noMargin">
 
                         {
                             this.props.firebaseError ?

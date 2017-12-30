@@ -17,3 +17,57 @@ body {
 {
     display : none !important;
 }
+
+.two-line
+{
+    line-height: 1.5em !important; /* Sets line height to 1.5 times text size */
+    height: 3em; /* Sets the div height to 2x line-height (3 times text size) */
+    width: 100%; /* Use whatever width you want */
+    white-space: normal; /* Wrap lines of text */
+    overflow: hidden; /* Hide text that goes beyond the boundaries of the div */
+    text-overflow: ellipsis; /* Ellipses (cross-browser) */
+    -o-text-overflow: ellipsis; /* Ellipses (cross-browser) */
+}
+
+.three-line
+{
+    line-height: 1.5em; /* Sets line height to 1.5 times text size */
+    height: 4.5em; /* Sets the div height to 2x line-height (3 times text size) */
+    width: 100%; /* Use whatever width you want */
+    white-space: normal; /* Wrap lines of text */
+    overflow: hidden; /* Hide text that goes beyond the boundaries of the div */
+    text-overflow: ellipsis; /* Ellipses (cross-browser) */
+    -o-text-overflow: ellipsis; /* Ellipses (cross-browser) */
+}
+
+.rdw-dropdown-carettoopen , .rdw-dropdown-carettoclose{
+    right : unset;
+    left : 10%;
+}
+
+@media only screen and (max-width: 500px)
+{
+    .noSegment {
+        background: none !important;
+        margin: 0 !important;
+        padding : 0 !important;
+        border: none !important;
+        border-radius: 0 !important;
+        box-shadow : none !important;
+    }
+
+    .noMargin , .ui.container {
+        margin: 0 !important;
+        margin-left : 0 !important;
+        margin-right: 0 !important;
+    }
+
+    body {
+        background-color: lightblue;
+    }
+
+    .ui.container>div>.ui.segment {
+        margin: 8px !important;
+    }
+
+}
