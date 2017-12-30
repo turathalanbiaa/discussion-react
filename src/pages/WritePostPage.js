@@ -5,7 +5,7 @@ import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import draftToHtml from 'draftjs-to-html'
 import firebase from './../Firebase';
 import FirebaseUtils from "../utils/FirebaseUtils";
-import {Segment , Form} from 'semantic-ui-react';
+import {Form, List, Segment} from 'semantic-ui-react';
 
 export default class WritePostPage extends Component
 {
@@ -13,13 +13,21 @@ export default class WritePostPage extends Component
     constructor(props)
     {
         super(props);
-        this.state = {content: '', title: '', file: null, fileUploadState: null};
+        this.state = {
+            content: '',
+            title: '',
+            file: null,
+            fileUploadState: null,
+            processing: false,
+            error: false,
+            errorMessages: []
+        };
     }
 
     onEditorStateChange = (editorState) =>
     {
         let content = draftToHtml(convertToRaw(editorState.getCurrentContent()));
-        this.setState({content: content});
+        this.setState({content: content, editorState: editorState});
     };
 
     onTitleChanged = (event) =>
@@ -29,8 +37,15 @@ export default class WritePostPage extends Component
 
     onFileChanged = (event) =>
     {
-        let file = event.target.files[0];
-        this.setState({file: file});
+        if (event.target.files.length > 0)
+        {
+            let file = event.target.files[0];
+            this.setState({file: file});
+        }
+        else
+        {
+            this.setState({file: null});
+        }
     };
 
     render()
@@ -42,13 +57,14 @@ export default class WritePostPage extends Component
 
                     <Form.Field>
                         <label>عنوان المنشور</label>
-                        <input type="text" onChange={this.onTitleChanged}/>
+                        <input ref={ref => this.titleInputRef = ref} type="text" onChange={this.onTitleChanged}/>
                     </Form.Field>
 
 
                     <Form.Field>
                         <label>المحتوى</label>
                         <Editor
+                            editorState={this.state.editorState}
                             editorClassName="editor-class"
                             onEditorStateChange={this.onEditorStateChange}
                         />
@@ -56,31 +72,80 @@ export default class WritePostPage extends Component
 
                     <Form.Field>
                         <label>ارفق صورة (اختياري)</label>
-                        <input type="file" onChange={this.onFileChanged}/>
+                        <input ref={ref => this.fileInputRef = ref} type="file" onChange={this.onFileChanged}/>
                     </Form.Field>
 
+                    {
+                        this.state.error &&
+                        <Segment color={'red'} inverted>
+                            <List bulleted>
+                                {
+                                    this.state.errorMessages.map((item, index) => <List.Item
+                                        key={index}>{item}</List.Item>)
+                                }
+                                {this.state.fileUploadState === "error" &&
+                                <List.Item key="file-upload-error-key">{'حصلت مشكلة خلال عملية رفع الملف'}</List.Item>}
+                            </List>
+                        </Segment>
+
+                    }
 
                     <Form.Field>
-                        <button className="ui large violet button" onClick={this.save}>انشر</button>
+                        <button
+                            className={"ui large violet button " + (this.state.processing ? 'disabled loading' : '')}
+                            onClick={this.save}>انشر
+                        </button>
                     </Form.Field>
+
+
                 </Form>
 
             </Segment>
         )
     }
 
+    validate = () =>
+    {
+        let title = this.state.title;
+        let content = this.state.content;
+
+        let messages = [];
+        let error = false;
+
+        if (title.trim().length === 0)
+        {
+            error = true;
+            messages.push('عنوان المنشور فارغ')
+        }
+
+        if (content.trim().length === 0)
+        {
+            error = true;
+            messages.push('المحتوى فارغ');
+        }
+
+        this.setState({error: error, errorMessages: messages});
+
+        return !error;
+    };
+
     save = () =>
     {
+        if (!this.validate())
+        {
+            return;
+        }
+
         this.savePostToDB();
     };
 
     async savePostToDB()
     {
-        console.log(firebase.database.ServerValue.TIMESTAMP);
-
         try
         {
+            this.setState({processing: true});
             let user = await FirebaseUtils.getCurrentUser();
+
             let post = {
                 title: this.state.title,
                 content: this.state.content,
@@ -95,14 +160,37 @@ export default class WritePostPage extends Component
 
             let newPost = firebase.database().ref().child("posts").push();
             await newPost.set(post);
-            this.uploadFile(newPost.key);
+
+            if (this.state.file)
+            {
+                this.uploadFile(newPost.key);
+            }
+            else
+            {
+                this.savingDone();
+            }
+
+
         }
         catch (e)
         {
-            console.log(e);
+            this.setState({
+                fileUploadState: 'error',
+                error: true,
+                errorMessages: ['حصلت مشكلة خلال عملية النشر'],
+                processing: false
+            });
         }
 
     }
+
+
+    savingDone = () =>
+    {
+        this.setState({processing: false, editorState: null});
+        this.titleInputRef.value = "";
+        this.fileInputRef.value = null;
+    };
 
     uploadFile = (postKey) =>
     {
@@ -119,14 +207,16 @@ export default class WritePostPage extends Component
 
             function error()
             {
-                self.setState({fileUploadState: 'error'});
+                self.setState({fileUploadState: 'error', error: true, processing: false});
+                firebase.database().ref().child("posts/" + postKey).set({});
             },
 
             function complete()
             {
+                self.savingDone();
                 let downloadUrl = task.snapshot.downloadURL;
                 firebase.database().ref().child(`posts/${postKey}/photoUrl`).set(downloadUrl);
-                self.setState({fileUploadState: 'done'});
+                self.setState({fileUploadState: 'done', error: false, processing: false});
             }
         )
     }

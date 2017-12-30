@@ -16,7 +16,7 @@ export default class AllRoutes extends Component
                 <Route exact path="/" component={() => <Home/>}/>
                 <Route exact path="/posts/:id" component={this.postPageRoute}/>
                 <Route exact path="/section/:id" component={this.sectionPageRoute}/>
-                <Route exact path="/write/:id" component={ () => <WritePostPage/>}/>
+                <Route exact path="/write/:id" component={this.writePost}/>
                 <Route exact path="/my-posts" component={ () => <SectionPage myPosts /> }/>
 
             </div>
@@ -42,8 +42,10 @@ export default class AllRoutes extends Component
     writePost = (routeData) =>
     {
         let params = routeData.match.params;
-        if (params.sectionId)
-            return <WritePostPage sectionId={params.sectionId}/>
+        if (params.id)
+            return <WritePostPage sectionId={params.id}/>;
+
+        return null;
     }
 
 }

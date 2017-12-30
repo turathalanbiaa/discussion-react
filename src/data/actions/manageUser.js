@@ -35,7 +35,7 @@ export function loginOrCreateFirebaseUser()
                     dispatch({type : 'USER_LOGGED_IN' , payload : user});
                 }).catch(() =>
                 {
-                    if(!gender || !type || !level)
+                    if(!gender || !type || !level || !name)
                     {
                         dispatch({type : 'CANNOT_CREATE_USER'});
                         return;
@@ -50,6 +50,7 @@ export function loginOrCreateFirebaseUser()
                         dispatch({type : 'CANNOT_CREATE_USER'});
                     });
                 });
+
             }
         });
     }
