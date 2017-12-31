@@ -5,7 +5,8 @@ import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import draftToHtml from 'draftjs-to-html'
 import firebase from './../Firebase';
 import FirebaseUtils from "../utils/FirebaseUtils";
-import {Form, List, Segment} from 'semantic-ui-react';
+import {Form, List, Segment, Divider, Header} from 'semantic-ui-react';
+import {Link} from 'react-router-dom';
 
 export default class WritePostPage extends Component
 {
@@ -14,7 +15,6 @@ export default class WritePostPage extends Component
     {
         super(props);
         this.state = {
-            content: '',
             title: '',
             file: null,
             fileUploadState: null,
@@ -23,17 +23,6 @@ export default class WritePostPage extends Component
             errorMessages: []
         };
     }
-
-    onEditorStateChange = (editorState) =>
-    {
-        let content = draftToHtml(convertToRaw(editorState.getCurrentContent()));
-        this.setState({content: content, editorState: editorState});
-    };
-
-    onTitleChanged = (event) =>
-    {
-        this.setState({title: event.target.value});
-    };
 
     onFileChanged = (event) =>
     {
@@ -48,66 +37,104 @@ export default class WritePostPage extends Component
         }
     };
 
+    getSectionTitleById = () =>
+    {
+        switch (parseInt(this.props.sectionId))
+        {
+            case 1 :
+                return 'القسم الرجالي';
+            case 2 :
+                return 'القسم النسوي / الهيئة الادارية';
+            case 3 :
+                return 'القسم النسوي / الهيئة العلمية';
+            case 4 :
+                return 'المنتدى الطلابي / المرحلة التمهيدية';
+            case 5 :
+                return 'المنتدى الطلابي / مقدمات اولى';
+            case 6 :
+                return 'المنتدى الطلابي / مقدمات ثانية';
+            case 7 :
+                return 'المنتدى الطلابي / مقدمات ثالثة';
+            default :
+                return "المنتدى غير معروف";
+        }
+    };
+
     render()
     {
         return (
-            <Segment style={{minHeight: '500px'}}>
+            <div>
 
-                <Form>
+                <div>
+                    <Link className="ui blue large button" to="/">الرئيسية</Link>
+                    <Link className="ui green large button"
+                          to={"/section/" + this.props.sectionId}>{this.getSectionTitleById()}</Link>
+                </div>
 
-                    <Form.Field>
-                        <label>عنوان المنشور</label>
-                        <input ref={ref => this.titleInputRef = ref} type="text" onChange={this.onTitleChanged}/>
-                    </Form.Field>
+                <Header as={"h2"}>كتابة منشور الى : {this.getSectionTitleById()}</Header>
+
+                <Segment style={{minHeight: '500px'}}>
+
+                    <Divider hidden/>
+
+                    <Form>
+
+                        <Form.Field>
+                            <label>عنوان المنشور</label>
+                            <input ref={ref => this.titleInputRef = ref} type="text"
+                                   onChange={event => this.setState({title: event.target.value})}/>
+                        </Form.Field>
+
+                        <Form.Field>
+                            <label>المحتوى</label>
+                            <Editor
+                                editorState={this.state.editorState}
+                                editorClassName="editor-class"
+                                onEditorStateChange={editorState => this.setState({editorState: editorState})}
+                            />
+                        </Form.Field>
+
+                        <Form.Field>
+                            <label>ارفق صورة (اختياري)</label>
+                            <input ref={ref => this.fileInputRef = ref} type="file" onChange={this.onFileChanged}/>
+                        </Form.Field>
+
+                        {
+                            this.state.error &&
+                            <Segment color={'red'} inverted>
+                                <List bulleted>
+                                    {
+                                        this.state.errorMessages.map((item, index) => <List.Item
+                                            key={index}>{item}</List.Item>)
+                                    }
+                                    {this.state.fileUploadState === "error" &&
+                                    <List.Item
+                                        key="file-upload-error-key">{'حصلت مشكلة خلال عملية رفع الملف'}</List.Item>}
+                                </List>
+                            </Segment>
+                        }
+
+                        <Form.Field>
+                            <button
+                                className={"ui large violet button " + (this.state.processing ? 'disabled loading' : '')}
+                                onClick={this.save}>انشر
+                            </button>
+                        </Form.Field>
 
 
-                    <Form.Field>
-                        <label>المحتوى</label>
-                        <Editor
-                            editorState={this.state.editorState}
-                            editorClassName="editor-class"
-                            onEditorStateChange={this.onEditorStateChange}
-                        />
-                    </Form.Field>
+                    </Form>
 
-                    <Form.Field>
-                        <label>ارفق صورة (اختياري)</label>
-                        <input ref={ref => this.fileInputRef = ref} type="file" onChange={this.onFileChanged}/>
-                    </Form.Field>
+                    <Divider hidden/>
 
-                    {
-                        this.state.error &&
-                        <Segment color={'red'} inverted>
-                            <List bulleted>
-                                {
-                                    this.state.errorMessages.map((item, index) => <List.Item
-                                        key={index}>{item}</List.Item>)
-                                }
-                                {this.state.fileUploadState === "error" &&
-                                <List.Item key="file-upload-error-key">{'حصلت مشكلة خلال عملية رفع الملف'}</List.Item>}
-                            </List>
-                        </Segment>
-
-                    }
-
-                    <Form.Field>
-                        <button
-                            className={"ui large violet button " + (this.state.processing ? 'disabled loading' : '')}
-                            onClick={this.save}>انشر
-                        </button>
-                    </Form.Field>
-
-
-                </Form>
-
-            </Segment>
+                </Segment>
+            </div>
         )
     }
 
     validate = () =>
     {
         let title = this.state.title;
-        let content = this.state.content;
+        let content = draftToHtml(convertToRaw(this.state.editorState.getCurrentContent()));
 
         let messages = [];
         let error = false;
@@ -146,16 +173,19 @@ export default class WritePostPage extends Component
             this.setState({processing: true});
             let user = await FirebaseUtils.getCurrentUser();
 
+            let content = draftToHtml(convertToRaw(this.state.editorState.getCurrentContent()));
+
             let post = {
                 title: this.state.title,
-                content: this.state.content,
+                content: content,
                 photoUrl: null,
                 gender: user.gender,
                 type: this.props.sectionId,
                 level: user.level,
                 userId: user.uid,
                 userDisplayName: user.displayName,
-                time: firebase.database.ServerValue.TIMESTAMP
+                time: firebase.database.ServerValue.TIMESTAMP,
+                type_gender : this.props.sectionId + "_" + user.gender
             };
 
             let newPost = firebase.database().ref().child("posts").push();
@@ -183,7 +213,6 @@ export default class WritePostPage extends Component
         }
 
     }
-
 
     savingDone = () =>
     {
