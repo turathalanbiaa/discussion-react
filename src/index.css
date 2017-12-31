@@ -77,3 +77,21 @@ body {
     }
 
 }
+
+.ui.comments .comment .avatar
+{
+    float: right !important;
+}
+
+.ui.comments .comment>.avatar~.content
+{
+    margin-right : 3.5em;
+    margin-left: 0;
+}
+
+.ui.comments .comment .metadata
+{
+    margin-right : .5em;
+    margin-left: 0;
+    direction: ltr;
+}

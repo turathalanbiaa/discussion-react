@@ -22,31 +22,33 @@ export default class Home extends Component
                         </Grid.Column>
 
                         <Grid.Column textAlign="center">
-                            <SectionCard href="/section/2" image="section_1.jpg"/>
+                            <SectionCard href="/section/2" image="section_2.jpg"/>
                         </Grid.Column>
 
 
                         <Grid.Column textAlign="center">
-                            <SectionCard href="/section/3" image="section_1.jpg"/>
+                            <SectionCard href="/section/3" image="section_3.jpg"/>
                         </Grid.Column>
 
                         <Grid.Column textAlign="center">
-                            <SectionCard href="/section/4" image="section_1.jpg"/>
+                            <SectionCard href="/section/4" image="section_4.jpg"/>
                         </Grid.Column>
 
                         <Grid.Column textAlign="center">
-                            <SectionCard href="/section/5" image="section_1.jpg"/>
+                            <SectionCard href="/section/5" image="section_5.jpg"/>
                         </Grid.Column>
 
                         <Grid.Column textAlign="center">
-                            <SectionCard href="/section/6" image="section_1.jpg"/>
+                            <SectionCard href="/section/6" image="section_6.jpg"/>
                         </Grid.Column>
 
                         <Grid.Column textAlign="center">
-                            <SectionCard href="/section/7" image="section_1.jpg"/>
+                            <SectionCard href="/section/7" image="section_7.jpg"/>
                         </Grid.Column>
 
                     </Grid>
+
+                    <Divider hidden/>
 
 
                 </Segment>

@@ -1,14 +1,16 @@
-import React , {Component} from 'react';
+import React, {Component} from 'react';
 import firebase from './../Firebase';
 import Post from "../component/Post";
 import FirebaseUtils from "../utils/FirebaseUtils";
+import {Header, Segment} from 'semantic-ui-react';
+import Comments from "../component/Comments/Comments";
 
 export default class PostPage extends Component
 {
     constructor(props)
     {
         super(props);
-        this.state = {post : {} , comments : {}};
+        this.state = {post: {}, comments: {}};
     }
 
     componentDidMount()
@@ -35,17 +37,17 @@ export default class PostPage extends Component
 
         let postRefString = "posts/" + id;
         this.postRef = firebase.database().ref().child(postRefString);
-        this.postRef.on("value" , snap =>
+        this.postRef.on("value", snap =>
         {
             let post = snap.val();
-            
-            if(post === null)
+
+            if (post === null)
             {
-                this.setState({post : {}});
+                this.setState({post: {}});
                 return;
             }
 
-            this.setState({post : snap.val()});
+            this.setState({post: snap.val()});
         });
     };
 
@@ -55,29 +57,30 @@ export default class PostPage extends Component
 
         let commentRefString = "comments/" + id;
         this.commentsRef = firebase.database().ref().child(commentRefString);
-        this.commentsRef.on("value" , snap =>
+        this.commentsRef.on("value", snap =>
         {
             let comments = snap.val();
-            if(comments === null)
+            if (comments === null)
             {
-                this.setState({comments : {}});
+                this.setState({comments: {}});
                 return;
             }
 
-            this.setState({comments : snap.val()});
-            console.log(this.state.comments);
+            this.setState({comments: snap.val()});
         });
     };
 
-    detachPost = () => {
-        if(this.postRef !== null && this.postRef !== undefined)
+    detachPost = () =>
+    {
+        if (this.postRef !== null && this.postRef !== undefined)
         {
             this.postRef.off();
         }
     };
 
-    detachComments = () => {
-        if(this.commentsRef !== null && this.commentsRef !== undefined)
+    detachComments = () =>
+    {
+        if (this.commentsRef !== null && this.commentsRef !== undefined)
         {
             this.commentsRef.off();
         }
@@ -87,21 +90,16 @@ export default class PostPage extends Component
     {
         return (
             <div>
-                <h1>Post Page</h1>
-                <hr/>
-                {this.state.post && <Post id={this.props.id} post={this.state.post}/>}
-                <hr/>
 
-                <hr/>
-                <h1>Comments</h1>
-                {
-                    <pre>{JSON.stringify(this.state.comments)}</pre>
-                }
-                <hr/>
+                <Segment>
 
-                <label>Write Your Comment</label>
-                <input type="text" onChange={this.onCommentChange}/>
-                <button onClick={this.writeComment}>Save</button>
+                    {this.state.post && <Post id={this.props.id} post={this.state.post}/>}
+
+                    <Header as={'h2'}>التعليقات : </Header>
+
+                    <Comments postId={this.props.id} comments={this.state.comments}/>
+
+                </Segment>
 
             </div>
         )
@@ -109,24 +107,6 @@ export default class PostPage extends Component
 
 
 
-    onCommentChange = (event) =>
-    {
-        let comment = event.target.value;
-        this.setState({comment : comment});
-    };
-
-    writeComment = async () =>
-    {
-        let time = new Date();
-        let user = await FirebaseUtils.getCurrentUser();
-        let comment = firebase.database().ref().child(`comments/${this.props.id}`).push();
-        comment.set({
-            comment: this.state.comment,
-            userId: user.uid,
-            gender : user.gender ,
-            time : time.getTime()
-        });
-    }
 
 
 }

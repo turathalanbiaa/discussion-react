@@ -1,4 +1,5 @@
 import React , {Component} from 'react';
+import {Header , Image , Divider} from 'semantic-ui-react';
 
 export default class Post extends Component
 {
@@ -8,10 +9,24 @@ export default class Post extends Component
     {
         return (
             <div id={this.props.post.id}>
-                <h5>{this.props.post.userDisplayName}</h5>
-                <h1>{this.props.post.title}</h1>
-                <div dangerouslySetInnerHTML={{__html: this.props.post.content}}/>
-                {this.props.post.photoUrl && <img src={this.props.post.photoUrl} width="400" height="400"/>}
+
+                <div>
+                    <Header as='h2'>
+                        <Image circular src={parseInt(this.props.post.gender) === 2 ? '/images/woman.png' : '/images/man.png'} />
+                        {' '}{this.props.post.userDisplayName}
+                    </Header>
+                </div>
+
+                <Header as={'h1'}>{this.props.post.title}</Header>
+
+                <Divider/>
+
+                {this.props.post.photoUrl && <Image size={'huge'} src={this.props.post.photoUrl}/>}
+
+                <Divider hidden/>
+
+                <div style={{padding : '20px 0'}} dangerouslySetInnerHTML={{__html: this.props.post.content}}/>
+
             </div>
         )
     }

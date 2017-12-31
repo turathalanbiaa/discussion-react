@@ -51,8 +51,8 @@ class RouterPage extends Component
 
 const styles = {
     mainHeader: {
-        backgroundColor: '#A1887F',
-        padding: '40px',
+        backgroundColor: '#30499B',
+        padding: '20px',
         marginBottom: '30px',
         textAlign: 'right'
     }

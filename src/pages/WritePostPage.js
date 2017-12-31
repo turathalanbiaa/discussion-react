@@ -116,7 +116,8 @@ export default class WritePostPage extends Component
 
                         <Form.Field>
                             <button
-                                className={"ui large violet button " + (this.state.processing ? 'disabled loading' : '')}
+                                style={{background : '#F0A32F' , width : '128px'}}
+                                className={"ui large button " + (this.state.processing ? 'disabled loading' : '')}
                                 onClick={this.save}>انشر
                             </button>
                         </Form.Field>
