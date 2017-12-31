@@ -183,7 +183,7 @@ export default class WritePostPage extends Component
                 type: this.props.sectionId,
                 level: user.level,
                 userId: user.uid,
-                userDisplayName: user.displayName,
+                userDisplayName: user.name,
                 time: firebase.database.ServerValue.TIMESTAMP,
                 type_gender : this.props.sectionId + "_" + user.gender
             };

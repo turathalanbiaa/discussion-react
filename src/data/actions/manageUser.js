@@ -66,7 +66,8 @@ function saveUserToDatabase(uid)
     firebase.database().ref().child(`users/${uid}`).set({
         gender: window.user.gender,
         level: window.user.level,
-        type: window.user.type
+        type: window.user.type ,
+        name : window.user.name
     });
 }
 

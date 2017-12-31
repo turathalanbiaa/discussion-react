@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {Header} from 'semantic-ui-react';
+import {Link} from 'react-router-dom';
 
 export default class PostItem extends Component
 {
@@ -7,24 +8,38 @@ export default class PostItem extends Component
     render()
     {
         return (
-            <a href="/posts">
+            <Link to={"/posts/" + this.props.id}>
                 <div style={styles.card}>
                     <div style={styles.imageContainer}>
-                        <img style={styles.image} src={this.props.imageUrl}/>
+                        <img style={styles.image} src={this.props.imageUrl ? this.props.imageUrl : "/images/no_image.jpg"}/>
                     </div>
                     <div style={styles.content}>
-                        <Header className="three-line" size={'small'}>{this.props.title}</Header>
+                        <Header className="three-line" size={'medium'}>{this.props.title}</Header>
                         <div>
                             <div style={styles.contentFooter}>
-                                <div style={styles.leftFooterItem}>{this.props.userName}</div>
-                                <div style={styles.rightFooterItem}>{this.props.date}</div>
+                                <div style={styles.leftFooterItem}>{this.props.userName ? this.props.userName : 'الاسم غير معروف'}</div>
+                                <div style={styles.rightFooterItem}>{this.timestampToDate(this.props.date)}</div>
                             </div>
                         </div>
 
                     </div>
                 </div>
-            </a>
+            </Link>
         )
+    }
+
+    timestampToDate = (timestamp) =>
+    {
+        let a = new Date(timestamp);
+        //let months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+        let year = a.getFullYear();
+        let month = a.getMonth() + 1;   //months[a.getMonth()];
+        let date = a.getDate();
+        let hour = a.getHours();
+        let min = a.getMinutes();
+        //let sec = a.getSeconds();
+        return year + '-' + month + '-' + date + ' ' + hour + ':' + min;
+
     }
 
 }
@@ -67,11 +82,12 @@ const styles = {
         margin: 0,
         alignSelf: 'flex-end',
         textAlign : 'left',
+        direction : 'ltr'
     },
     leftFooterItem: {
         flex: 0.5,
         margin: 0,
         alignSelf: 'flex-start',
-        textAlign : 'right'
+        textAlign : 'right' ,
     }
 };

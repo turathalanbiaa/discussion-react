@@ -19,10 +19,11 @@ export default class PostList extends Component
                         return (
                             <Grid.Column key={item}>
                                 <PostItem
+                                    id={item}
                                     imageUrl={post.photoUrl}
                                     title={post.title}
                                     shortDescription={post.content}
-                                    userName={post.userName}
+                                    userName={post.userDisplayName}
                                     date={post.time}
                                 />
                             </Grid.Column>
