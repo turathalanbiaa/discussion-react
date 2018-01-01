@@ -1,5 +1,6 @@
 import React , {Component} from 'react';
 import {Comment as SemanticComment} from 'semantic-ui-react';
+import TimeUtils from "../../utils/TimeUtils";
 
 export default class Comment extends Component
 {
@@ -12,7 +13,7 @@ export default class Comment extends Component
                 <SemanticComment.Content>
                     <SemanticComment.Author as='a'>{this.props.userDisplayName}</SemanticComment.Author>
                     <SemanticComment.Metadata>
-                        <div>{this.timestampToDate(this.props.time)}</div>
+                        <div>{TimeUtils.timestampToDate(this.props.time)}</div>
                     </SemanticComment.Metadata>
                     <SemanticComment.Text>{this.props.comment}</SemanticComment.Text>
                     {/*<SemanticComment.Actions>*/}
@@ -21,20 +22,6 @@ export default class Comment extends Component
                 </SemanticComment.Content>
             </SemanticComment>
         )
-    }
-
-    timestampToDate = (timestamp) =>
-    {
-        let a = new Date(timestamp);
-        //let months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-        let year = a.getFullYear();
-        let month = a.getMonth() + 1;   //months[a.getMonth()];
-        let date = a.getDate();
-        let hour = a.getHours();
-        let min = a.getMinutes();
-        //let sec = a.getSeconds();
-        return year + '-' + month + '-' + date + ' ' + hour + ':' + min;
-
     }
 
 }

@@ -1,5 +1,6 @@
 import React , {Component} from 'react';
 import {Header , Image , Divider} from 'semantic-ui-react';
+import TimeUtils from "../utils/TimeUtils";
 
 export default class Post extends Component
 {
@@ -18,10 +19,11 @@ export default class Post extends Component
                 </div>
 
                 <Header as={'h1'}>{this.props.post.title}</Header>
+                <p style={{direction : 'ltr', textAlign : 'right'}}>{TimeUtils.timestampToDate(this.props.post.time)}</p>
 
                 <Divider/>
 
-                {this.props.post.photoUrl && <Image size={'huge'} src={this.props.post.photoUrl}/>}
+                {this.props.post.photoUrl && <Image style={{border : '1px #EEEEEE solid'}} size={'huge'} src={this.props.post.photoUrl}/>}
 
                 <Divider hidden/>
 
