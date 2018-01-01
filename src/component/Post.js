@@ -1,5 +1,5 @@
 import React , {Component} from 'react';
-import {Header , Image , Divider} from 'semantic-ui-react';
+import {Header , Image , Divider , Button} from 'semantic-ui-react';
 import TimeUtils from "../utils/TimeUtils";
 
 export default class Post extends Component
@@ -15,6 +15,15 @@ export default class Post extends Component
                     <Header as='h2'>
                         <Image circular src={parseInt(this.props.post.gender) === 2 ? '/images/woman.png' : '/images/man.png'} />
                         {' '}{this.props.post.userDisplayName}
+
+                        {
+                            this.props.canEdit &&
+                            <div style={{float : 'left'}}>
+                                <Button color={'yellow'}>تعديل</Button>
+                                <Button onClick={() => this.props.deleteAction()} color={'red'}>حذف</Button>
+                            </div>
+                        }
+
                     </Header>
                 </div>
 

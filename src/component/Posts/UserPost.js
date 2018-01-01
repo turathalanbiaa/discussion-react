@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Header, Divider} from 'semantic-ui-react';
+import {Header, Divider , Segment} from 'semantic-ui-react';
 import PostList from "./PostList";
 import firebase from './../../Firebase';
 
@@ -14,7 +14,7 @@ export default class UserPost extends Component
 
     componentDidMount()
     {
-        this.loadPosts();
+        this.props.userId && this.loadPosts();
     }
 
     componentWillUnmount()
@@ -52,6 +52,7 @@ export default class UserPost extends Component
             if (item !== this.props.postId)
                 newPosts[item] = posts[item];
         });
+
         return newPosts;
     };
 
@@ -70,13 +71,13 @@ export default class UserPost extends Component
         return (
             <div>
                 <Divider hidden/>
-
-                <div>
-                    <Header>مواضيع هذا العضو : </Header>
-                    <PostList posts={this.state.posts}/>
-                </div>
-
                 <Divider hidden/>
+                <Segment color={'blue'}>
+                    <div>
+                        <Header>مواضيع هذا العضو : </Header>
+                        <PostList posts={this.state.posts}/>
+                    </div>
+                </Segment>
             </div>
         )
     }

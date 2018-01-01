@@ -18,7 +18,6 @@ export default class SectionPage extends Component
         this.loadPosts();
     }
 
-
     loadPosts = () =>
     {
         this.detach();
@@ -42,8 +41,8 @@ export default class SectionPage extends Component
             }
             this.setState({posts: snap.val(), processing: false});
         })
-    };
 
+    };
 
     componentWillUnmount()
     {

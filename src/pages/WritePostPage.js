@@ -134,6 +134,8 @@ export default class WritePostPage extends Component
 
     validate = () =>
     {
+        console.log(convertToRaw(this.state.editorState.getCurrentContent()));
+
         let title = this.state.title;
         let content = draftToHtml(convertToRaw(this.state.editorState.getCurrentContent()));
 

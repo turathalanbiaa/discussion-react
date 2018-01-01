@@ -1,87 +1,55 @@
 import React, {Component} from 'react';
 import firebase from './../Firebase';
 import Post from "../component/Post";
-import {Header, Segment, Loader , Divider} from 'semantic-ui-react';
+import {Divider, Loader, Segment , Header} from 'semantic-ui-react';
 import Comments from "../component/Comments/Comments";
 import {Link} from 'react-router-dom';
-import PostList from "../component/Posts/PostList";
 import UserPost from "../component/Posts/UserPost";
+import FirebaseUtils from "../utils/FirebaseUtils";
 
 export default class PostPage extends Component
 {
     constructor(props)
     {
         super(props);
-        this.state = {post: {}, comments: {} , userPosts : {}, loadingPost: false, loadingComments: false};
+        this.state = {post: {}, loading: false , user : null , deleted : false};
     }
 
-    //region COMPONENT LIFE CYCLE
     componentDidMount()
     {
         this.loadPost(this.props.id);
-        this.loadComments(this.props.id);
+        FirebaseUtils.getCurrentUser().then((user) => {this.setState({user : user})})
     }
 
     componentWillReceiveProps(nextProp)
     {
         this.loadPost(nextProp.id);
-        this.loadComments(nextProp.id);
     }
 
     componentWillUnmount()
     {
         this.detachPost();
-        this.detachComments();
     }
-    //endregion
 
-    //region LOADING
     loadPost = (id) =>
     {
+        this.setState({loading : true});
+
         this.detachPost();
-        let postRefString = "posts/" + id;
-        this.setState({loadingPost: true});
-        this.postRef = firebase.database().ref().child(postRefString);
+        this.postRef = firebase.database().ref().child("posts/" + id );
         this.postRef.on("value", snap =>
         {
-            this.setState({loadingPost: false});
             let post = snap.val();
-
             if (post === null)
             {
-                this.setState({post: {}});
+                this.setState({post: {} , loading: false});
                 return;
             }
 
-            this.setState({post: snap.val()});
+            this.setState({post: snap.val() , loading: false});
         });
     };
 
-    loadComments = (id) =>
-    {
-        this.detachComments();
-
-        let commentRefString = "comments/" + id;
-        this.setState({loadingComments: true});
-        this.commentsRef = firebase.database().ref().child(commentRefString);
-        this.commentsRef.on("value", snap =>
-        {
-            this.setState({loadingComments: false});
-            let comments = snap.val();
-            if (comments === null)
-            {
-                this.setState({comments: {}});
-                return;
-            }
-
-            this.setState({comments: snap.val()});
-        });
-    };
-
-
-    //endregion
-
-    //region DETACHING
     detachPost = () =>
     {
         if (this.postRef !== null && this.postRef !== undefined)
@@ -90,16 +58,15 @@ export default class PostPage extends Component
         }
     };
 
-    detachComments = () =>
+    deletePost = async () =>
     {
-        if (this.commentsRef !== null && this.commentsRef !== undefined)
-        {
-            this.commentsRef.off();
-        }
+        console.log('delete');
+        this.detachPost();
+        this.setState({loading : true});
+        await firebase.database().ref().child("posts/" + this.props.id).set({});
+        await firebase.database().ref().child("comments/" + this.props.id).set({});
+        this.setState({loading : false , deleted : true});
     };
-
-
-    //endregion
 
     render()
     {
@@ -111,22 +78,11 @@ export default class PostPage extends Component
                     <Link className="ui blue large button" to="/">الرئيسية</Link>
                 </div>
 
-                <Segment style={{minHeight : '400px'}}>
+                <Segment style={{minHeight: '400px'}}>
 
                     {
-                        !this.state.loadingPost && !this.state.loadingComments ?
-                            <div>
-
-                                {this.state.post && <Post id={this.props.id} post={this.state.post}/>}
-
-                                <Header as={'h2'}>التعليقات : </Header>
-                                <Comments postId={this.props.id} comments={this.state.comments}/>
-
-                                <Divider/>
-
-                                {this.state.post.userId && <UserPost userId={this.state.post.userId} postId={this.props.id}/>}
-
-                            </div>
+                        !this.state.loading ?
+                            (this.state.deleted ? <Segment color={'red'} inverted textAlign={'center'}><Header>تم حذف المنشور</Header></Segment> : this.postContent())
                             :
                             <Loader active/>
                     }
@@ -136,5 +92,17 @@ export default class PostPage extends Component
             </div>
         )
     }
+
+    postContent = () =>
+    {
+        return (
+            <div>
+                <Post deleteAction={this.deletePost} canEdit={this.state.user && (this.state.user.type === "3" || this.state.user.uid === this.state.post.userId)}
+                      id={this.props.id} post={this.state.post}/>
+                <Comments postId={this.props.id}/>
+                <UserPost userId={this.state.post.userId} postId={this.props.id}/>
+            </div>
+        )
+    };
 
 }

@@ -31,6 +31,9 @@ export default class CommentBox extends Component
 
     save = async () =>
     {
+        if(this.state.comment.trim() === "")
+            return;
+
         this.setState({processing : true});
         try
         {
