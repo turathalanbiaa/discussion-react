@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Segment, Grid, Divider} from 'semantic-ui-react';
 import SectionCard from "../component/SectionCard";
-
+import {Link} from 'react-router-dom';
 
 export default class Home extends Component
 {
@@ -11,7 +11,11 @@ export default class Home extends Component
         return (
             <div>
 
-                <Segment style={{minHeight : '500px'}}>
+                <div>
+                    <Link className="ui blue large button" to={"/my-posts"}>منشوراتي</Link>
+                </div>
+
+                <Segment style={{minHeight: '500px'}}>
 
                     <Divider hidden/>
 

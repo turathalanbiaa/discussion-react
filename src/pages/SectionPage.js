@@ -18,9 +18,31 @@ export default class SectionPage extends Component
         this.loadPosts();
     }
 
+    componentWillUnmount()
+    {
+        this.detach();
+    }
+
     loadPosts = () =>
     {
         this.detach();
+        this.setupPostReference();
+
+        this.setState({processing: true});
+        this.postsRef.on("value", snap =>
+        {
+            if (snap.val() === null)
+            {
+                this.setState({posts: {}, processing: false});
+                return;
+            }
+            this.setState({posts: snap.val(), processing: false});
+        })
+
+    };
+
+    setupPostReference = () =>
+    {
         if (this.props.myPosts)
         {
             this.postsRef = firebase.database().ref().child('posts').orderByChild("userId").equalTo(firebase.auth().currentUser.uid);
@@ -29,25 +51,7 @@ export default class SectionPage extends Component
         {
             this.postsRef = firebase.database().ref().child('posts').orderByChild("type").equalTo(this.props.id);
         }
-
-        this.setState({processing: true});
-
-        this.postsRef.on("value", snap =>
-        {
-            if (snap.val() === null)
-            {
-                this.setState({posts: [], processing: false});
-                return;
-            }
-            this.setState({posts: snap.val(), processing: false});
-        })
-
     };
-
-    componentWillUnmount()
-    {
-        this.detach();
-    }
 
     detach = () =>
     {

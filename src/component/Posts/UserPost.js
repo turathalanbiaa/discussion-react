@@ -9,7 +9,7 @@ export default class UserPost extends Component
     constructor(props)
     {
         super(props);
-        this.state = {posts: [] , loading : false};
+        this.state = {posts: {} , loading : false};
     }
 
     componentDidMount()
@@ -32,7 +32,7 @@ export default class UserPost extends Component
         {
             if (snap.val() === null)
             {
-                this.setState({posts: [], loading: false});
+                this.setState({posts: {}, loading: false});
                 return;
             }
 
@@ -69,16 +69,19 @@ export default class UserPost extends Component
     render()
     {
         return (
-            <div>
-                <Divider hidden/>
-                <Divider hidden/>
-                <Segment color={'blue'}>
-                    <div>
-                        <Header>مواضيع هذا العضو : </Header>
-                        <PostList posts={this.state.posts}/>
-                    </div>
-                </Segment>
-            </div>
+            Object.keys(this.state.posts).length > 0 ?
+                <div>
+                    <Divider hidden/>
+                    <Divider hidden/>
+                    <Segment color={'blue'}>
+                        <div>
+                            <Header>مواضيع هذا العضو : </Header>
+                            <PostList posts={this.state.posts}/>
+                        </div>
+                    </Segment>
+                </div>
+                :
+                null
         )
     }
 

@@ -7,6 +7,7 @@ import firebase from './../Firebase';
 import FirebaseUtils from "../utils/FirebaseUtils";
 import {Form, List, Segment, Divider, Header} from 'semantic-ui-react';
 import {Link} from 'react-router-dom';
+import AppUtils from "../utils/AppUtils";
 
 export default class WritePostPage extends Component
 {
@@ -37,29 +38,6 @@ export default class WritePostPage extends Component
         }
     };
 
-    getSectionTitleById = () =>
-    {
-        switch (parseInt(this.props.sectionId))
-        {
-            case 1 :
-                return 'القسم الرجالي';
-            case 2 :
-                return 'القسم النسوي / الهيئة الادارية';
-            case 3 :
-                return 'القسم النسوي / الهيئة العلمية';
-            case 4 :
-                return 'المنتدى الطلابي / المرحلة التمهيدية';
-            case 5 :
-                return 'المنتدى الطلابي / مقدمات اولى';
-            case 6 :
-                return 'المنتدى الطلابي / مقدمات ثانية';
-            case 7 :
-                return 'المنتدى الطلابي / مقدمات ثالثة';
-            default :
-                return "المنتدى غير معروف";
-        }
-    };
-
     render()
     {
         return (
@@ -68,7 +46,7 @@ export default class WritePostPage extends Component
                 <div>
                     <Link className="ui blue large button" to="/">الرئيسية</Link>
                     <Link className="ui green large button"
-                          to={"/section/" + this.props.sectionId}>{this.getSectionTitleById()}</Link>
+                          to={"/section/" + this.props.sectionId}>{AppUtils.sectionIdToTitle(this.props.sectionId)}</Link>
                 </div>
 
                 <Header as={"h2"}>كتابة منشور الى : {this.getSectionTitleById()}</Header>
