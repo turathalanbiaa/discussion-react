@@ -37,7 +37,7 @@ export default class Post extends Component
 
                 <Divider hidden/>
 
-                <div style={{padding : '20px 0'}} dangerouslySetInnerHTML={{__html: this.props.post.content}}/>
+                <div id="htmlContent" style={{padding : '20px 0'}} dangerouslySetInnerHTML={{__html: this.props.post.content}}/>
 
             </div>
         )

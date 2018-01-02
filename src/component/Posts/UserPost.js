@@ -12,7 +12,7 @@ export default class UserPost extends Component
         this.state = {posts: {} , loading : false};
     }
 
-    componentDidMount()
+    componentWillReceiveProps(next)
     {
         this.props.userId && this.loadPosts();
     }
@@ -25,9 +25,8 @@ export default class UserPost extends Component
     loadPosts = () =>
     {
         this.detach();
+        this.setState({loading: true , post : {}});
         this.postRef = firebase.database().ref().child('posts').orderByChild("userId").equalTo(this.props.userId);
-        this.setState({loading: true});
-
         this.postRef.on("value", snap =>
         {
             if (snap.val() === null)
@@ -69,7 +68,9 @@ export default class UserPost extends Component
     render()
     {
         return (
-            Object.keys(this.state.posts).length > 0 ?
+            this.state.loading ?
+                null
+                :
                 <div>
                     <Divider hidden/>
                     <Divider hidden/>
@@ -80,8 +81,6 @@ export default class UserPost extends Component
                         </div>
                     </Segment>
                 </div>
-                :
-                null
         )
     }
 

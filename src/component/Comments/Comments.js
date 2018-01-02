@@ -17,6 +17,11 @@ export default class Comments extends Component
         this.load(this.props.postId);
     }
 
+    componentWillReceiveProps(next)
+    {
+        this.load(next.postId);
+    }
+
     componentWillUnmount()
     {
         this.detach();
@@ -53,13 +58,16 @@ export default class Comments extends Component
     render()
     {
         return (
-            <div>
-                <Divider/>
-                {Object.keys(this.state.comments).length > 0 && <Header as={'h2'}>التعليقات : </Header>}
-                <CommentList comments={this.state.comments}/>
-                <CommentBox postId={this.props.postId}/>
-                <Divider hidden/>
-            </div>
+            this.state.loading ?
+                null
+                :
+                <div>
+                    <Divider/>
+                    {Object.keys(this.state.comments).length > 0 && <Header as={'h2'}>التعليقات : </Header>}
+                    <CommentList comments={this.state.comments}/>
+                    <CommentBox postId={this.props.postId}/>
+                    <Divider hidden/>
+                </div>
         )
     }
 

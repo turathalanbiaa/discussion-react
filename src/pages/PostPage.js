@@ -64,7 +64,6 @@ export default class PostPage extends Component
 
     deletePost = async () =>
     {
-        console.log('delete');
         this.detachPost();
         this.setState({loading: true});
         await firebase.database().ref().child("posts/" + this.props.id).set({});

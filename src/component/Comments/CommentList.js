@@ -8,7 +8,6 @@ export default class CommentList extends Component
     render()
     {
         let keys = this.props.comments ? Object.keys(this.props.comments) : [];
-        console.log(keys);
 
         return (
             <SemanticComment.Group>

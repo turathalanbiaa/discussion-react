@@ -49,7 +49,7 @@ export default class WritePostPage extends Component
                           to={"/section/" + this.props.sectionId}>{AppUtils.sectionIdToTitle(this.props.sectionId)}</Link>
                 </div>
 
-                <Header as={"h2"}>كتابة منشور الى : {this.getSectionTitleById()}</Header>
+                <Header as={"h2"}>كتابة منشور الى : {AppUtils.sectionIdToTitle(this.props.sectionId)}</Header>
 
                 <Segment style={{minHeight: '500px'}}>
 
@@ -112,8 +112,6 @@ export default class WritePostPage extends Component
 
     validate = () =>
     {
-        console.log(convertToRaw(this.state.editorState.getCurrentContent()));
-
         let title = this.state.title;
         let content = draftToHtml(convertToRaw(this.state.editorState.getCurrentContent()));
 
