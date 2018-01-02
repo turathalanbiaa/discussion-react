@@ -4,6 +4,7 @@ import Home from "../../pages/Home";
 import WritePostPage from "../../pages/WritePostPage";
 import SectionPage from "../../pages/SectionPage";
 import PostPage from "../../pages/PostPage";
+import EditPostPage from "../../pages/EditPostPage";
 
 export default class AllRoutes extends Component
 {
@@ -17,6 +18,7 @@ export default class AllRoutes extends Component
                 <Route exact path="/posts/:id" component={this.postPageRoute}/>
                 <Route exact path="/section/:id" component={this.sectionPageRoute}/>
                 <Route exact path="/write/:id" component={this.writePost}/>
+                <Route exact path="/post/edit/:id" component={this.editPost}/>
                 <Route exact path="/my-posts" component={ () => <SectionPage myPosts /> }/>
 
             </div>
@@ -46,6 +48,16 @@ export default class AllRoutes extends Component
             return <WritePostPage sectionId={params.id}/>;
 
         return null;
+    };
+
+    editPost = (routeData) =>
+    {
+        let params = routeData.match.params;
+        if (params.id)
+            return <EditPostPage postId={params.id}/>;
+
+        return null;
     }
+
 
 }

@@ -6,6 +6,7 @@
     "draft-js": "^0.10.4",
     "draftjs-to-html": "^0.8.1",
     "firebase": "^4.8.1",
+    "html-to-draftjs": "^1.1.2",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-draft-wysiwyg": "^1.12.1",

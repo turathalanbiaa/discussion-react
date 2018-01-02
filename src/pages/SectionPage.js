@@ -3,6 +3,7 @@ import firebase from './../Firebase';
 import {Divider, Header, Icon, Loader, Segment} from 'semantic-ui-react';
 import {Link} from 'react-router-dom';
 import PostList from "../component/Posts/PostList";
+import AppUtils from "../utils/AppUtils";
 
 export default class SectionPage extends Component
 {
@@ -71,6 +72,8 @@ export default class SectionPage extends Component
                     <Link className="ui blue large button" to="/">الرئيسية</Link>
                     <Link className="ui green large button" to={"/write/" + this.props.id}>اكتب منشور</Link>
                 </div>
+
+                <Header>{AppUtils.sectionIdToTitle(this.props.id)}</Header>
 
                 <Segment className="noSegment" style={{minHeight: '500px'}}>
 
