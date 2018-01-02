@@ -106,7 +106,7 @@ export default class EditPostPage extends Component
 
                 <Header as={"h2"}>تعديل المنشور</Header>
 
-                <Segment className="pageSegment" style={{minHeight: '500px'}}>
+                <Segment className="noSegment" style={{minHeight: '500px'}}>
                     {
                         !this.props.loading && Object.keys(this.state.post).length > 0 ?
                             this.renderEditPage()

@@ -96,7 +96,7 @@ body {
 
 #htmlContent
 {
-    text-overflow: clip;
-    overflow: scroll;
+    direction: ltr;
+    overflow: auto;
     overflow-y: hidden;
 }

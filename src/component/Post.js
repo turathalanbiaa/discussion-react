@@ -13,7 +13,7 @@ export default class Post extends Component
             <div id={this.props.post.id}>
 
                 <div>
-                    <Header as='h2'>
+                    <Header as='h4'>
                         <Image circular src={parseInt(this.props.post.gender) === 2 ? '/images/woman.png' : '/images/man.png'} />
                         {' '}{this.props.post.userDisplayName}
 
@@ -37,7 +37,7 @@ export default class Post extends Component
 
                 <Divider hidden/>
 
-                <div id="htmlContent" style={{padding : '20px 0'}} dangerouslySetInnerHTML={{__html: this.props.post.content}}/>
+                <div id="htmlContent" style={{padding : '20px 4px'}} dangerouslySetInnerHTML={{__html: this.props.post.content}}/>
 
             </div>
         )

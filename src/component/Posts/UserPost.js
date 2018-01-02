@@ -68,13 +68,13 @@ export default class UserPost extends Component
     render()
     {
         return (
-            this.state.loading ?
+            Object.keys(this.state.posts).length === 0 ?
                 null
                 :
                 <div>
                     <Divider hidden/>
                     <Divider hidden/>
-                    <Segment color={'blue'}>
+                    <Segment className="noSegment" color={'blue'}>
                         <div>
                             <Header>مواضيع هذا العضو : </Header>
                             <PostList posts={this.state.posts}/>

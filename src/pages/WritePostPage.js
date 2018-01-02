@@ -51,7 +51,7 @@ export default class WritePostPage extends Component
 
                 <Header as={"h2"}>كتابة منشور الى : {AppUtils.sectionIdToTitle(this.props.sectionId)}</Header>
 
-                <Segment style={{minHeight: '500px'}}>
+                <Segment className="noSegment" style={{minHeight: '500px'}}>
 
                     <Divider hidden/>
 

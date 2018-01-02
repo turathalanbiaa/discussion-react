@@ -15,7 +15,7 @@ export default class Home extends Component
                     <Link className="ui blue large button" to={"/my-posts"}>منشوراتي</Link>
                 </div>
 
-                <Segment style={{minHeight: '500px'}}>
+                <Segment className="noSegment" style={{minHeight: '500px'}}>
 
                     <Divider hidden/>
 

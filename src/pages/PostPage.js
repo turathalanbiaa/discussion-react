@@ -84,7 +84,7 @@ export default class PostPage extends Component
                 {(!this.state.loading && Object.keys(this.state.post).length > 0) &&
                 <Header>{AppUtils.sectionIdToTitle(this.state.post.type)}</Header>}
 
-                <Segment style={{minHeight: '400px'}}>
+                <Segment className="noSegment" style={{minHeight: '400px'}}>
 
                     {
                         !this.state.loading ?
