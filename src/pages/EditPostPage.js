@@ -30,15 +30,15 @@ export default class EditPostPage extends Component
 
     componentDidMount()
     {
-        this.loadPost(this.props.postId);
+        this.loadPost(this.props.postId , this.props.sectionId , this.props.gender);
     }
 
-    loadPost = (id) =>
+    loadPost = (id , sectionId , gender) =>
     {
         this.setState({loading: true});
 
         this.detach();
-        this.postRef = firebase.database().ref().child("posts/" + id);
+        this.postRef = firebase.database().ref().child("posts/" + sectionId + "/" + gender + "/" + id);
         this.postRef.once("value", snap =>
         {
             let post = snap.val();
@@ -242,7 +242,8 @@ export default class EditPostPage extends Component
                 post.photoUrl = this.state.post.photoUrl;
             }
 
-            let newPost = firebase.database().ref().child("posts/" + this.props.postId);
+
+            let newPost = firebase.database().ref().child("posts/" + this.props.sectionId + "/" + this.props.gender + "/" + this.props.postId);
             await newPost.set(post);
 
             if (this.state.file)
@@ -272,7 +273,7 @@ export default class EditPostPage extends Component
         this.setState({processing: false, editorState: null});
         this.titleInputRef.value = "";
         this.fileInputRef.value = null;
-        window.location="/posts/" + this.props.postId;
+        window.location="/posts/" + this.props.sectionId + "/" + this.props.gender + "/" + this.props.postId;
     };
 
     uploadFile = (postKey) =>

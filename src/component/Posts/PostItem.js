@@ -8,7 +8,7 @@ export default class PostItem extends Component
     render()
     {
         return (
-            <Link to={"/posts/" + this.props.id}>
+            <Link to={"/posts/" + this.props.sectionId + "/" + this.props.gender + "/" + this.props.id}>
                 <div style={styles.card}>
                     <div style={styles.imageContainer}>
                         <img style={styles.image} src={this.props.imageUrl ? this.props.imageUrl : "/images/no_image.jpg"}/>

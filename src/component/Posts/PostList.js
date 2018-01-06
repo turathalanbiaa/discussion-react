@@ -24,6 +24,8 @@ export default class PostList extends Component
                                     title={post.title}
                                     shortDescription={post.content}
                                     userName={post.userDisplayName}
+                                    gender={post.gender}
+                                    sectionId={this.props.sectionId}
                                     date={post.time}
                                 />
                             </Grid.Column>

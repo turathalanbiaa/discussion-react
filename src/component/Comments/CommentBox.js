@@ -14,8 +14,6 @@ export default class CommentBox extends Component
 
     render()
     {
-        firebase.database().ref().child("comments/L1fHWfXEsk9URPkrC-_").set({});
-
         return (
             <Form reply>
                 <Form.TextArea onChange={event => this.setState({comment : event.target.value})} value={this.state.comment}/>
@@ -38,7 +36,8 @@ export default class CommentBox extends Component
         try
         {
             let user = await FirebaseUtils.getCurrentUser();
-            let comment = firebase.database().ref().child(`comments/${this.props.postId}`).push();
+            let ref = "comments/" + this.props.sectionId + "/" + this.props.gender + "/" + this.props.postId;
+            let comment = firebase.database().ref().child(ref).push();
             await comment.set({
                 comment: this.state.comment,
                 userId: user.uid,

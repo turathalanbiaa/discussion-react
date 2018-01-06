@@ -18,7 +18,10 @@ export default class PostPage extends Component
 
     componentDidMount()
     {
-        this.loadPost(this.props.id);
+        let sectionId = this.props.sectionId;
+        let gender = this.props.gender;
+        this.loadPost(this.props.id , sectionId , gender);
+
         FirebaseUtils.getCurrentUser().then((user) =>
         {
             this.setState({user: user})
@@ -27,7 +30,7 @@ export default class PostPage extends Component
 
     componentWillReceiveProps(nextProp)
     {
-        this.loadPost(nextProp.id);
+        this.loadPost(nextProp.id , nextProp.sectionId , nextProp.gender);
     }
 
     componentWillUnmount()
@@ -35,12 +38,12 @@ export default class PostPage extends Component
         this.detachPost();
     }
 
-    loadPost = (id) =>
+    loadPost = (id , sectionId , gender) =>
     {
         this.setState({loading: true});
-
         this.detachPost();
-        this.postRef = firebase.database().ref().child("posts/" + id);
+        let dbRef = "posts/" + sectionId + "/" + gender + "/" + id;
+        this.postRef = firebase.database().ref().child(dbRef);
         this.postRef.on("value", snap =>
         {
             let post = snap.val();
@@ -66,8 +69,11 @@ export default class PostPage extends Component
     {
         this.detachPost();
         this.setState({loading: true});
-        await firebase.database().ref().child("posts/" + this.props.id).set({});
-        await firebase.database().ref().child("comments/" + this.props.id).set({});
+        let postsRef = "posts/" + this.props.sectionId + "/" + this.props.gender + "/" + this.props.id;
+        let commentsRef = "comments/" + this.props.sectionId + "/" + this.props.gender + "/" + this.props.id;
+        //REMOVE COMMENTS BEFORE POSTS SO SECURITY RULES WILL PASS
+        await firebase.database().ref().child(commentsRef).remove();
+        await firebase.database().ref().child(postsRef).remove();
         this.setState({loading: false, deleted: true});
     };
 
@@ -111,10 +117,11 @@ export default class PostPage extends Component
             Object.keys(this.state.post).length > 0 ?
                 <div>
                     <Post deleteAction={this.deletePost}
+                          sectionId={this.props.sectionId} gender={this.props.gender}
                           canEdit={this.state.user && (this.state.user.type === "3" || this.state.user.uid === this.state.post.userId)}
                           id={this.props.id} post={this.state.post}/>
-                    <Comments postId={this.props.id}/>
-                    <UserPost userId={this.state.post.userId} postId={this.props.id}/>
+                    <Comments sectionId={this.props.sectionId} gender={this.props.gender} postId={this.props.id}/>
+                    <UserPost sectionId={this.props.sectionId} gender={this.props.gender} userId={this.state.post.userId} postId={this.props.id}/>
                 </div>
                 :
                 <Header size={'large'} textAlign={'center'}>لا توجد بيانات</Header>

@@ -4,6 +4,7 @@ import {Divider, Header, Icon, Loader, Segment} from 'semantic-ui-react';
 import {Link} from 'react-router-dom';
 import PostList from "../component/Posts/PostList";
 import AppUtils from "../utils/AppUtils";
+import FirebaseUtils from "../utils/FirebaseUtils";
 
 export default class SectionPage extends Component
 {
@@ -11,7 +12,7 @@ export default class SectionPage extends Component
     constructor(props)
     {
         super(props);
-        this.state = {posts: {}, processing: false};
+        this.state = {posts: {}, processing: false , user : null};
     }
 
     componentDidMount()
@@ -24,12 +25,13 @@ export default class SectionPage extends Component
         this.detach();
     }
 
-    loadPosts = () =>
+    loadPosts = async () =>
     {
         this.detach();
-        this.setupPostReference();
-
         this.setState({processing: true});
+
+        await this.setupPostReference();
+
         this.postsRef.on("value", snap =>
         {
             if (snap.val() === null)
@@ -38,19 +40,28 @@ export default class SectionPage extends Component
                 return;
             }
             this.setState({posts: snap.val(), processing: false});
+        }, (e) =>
+        {
+            console.log(e);
+            this.detach();
+            this.setState({posts: {}, processing: false, error: true});
         })
 
     };
 
-    setupPostReference = () =>
+    setupPostReference = async () =>
     {
-        if (this.props.myPosts)
+        let user = await FirebaseUtils.getCurrentUser();
+        this.setState({user : user});
+
+        let dbChildRef = "posts/" + this.props.id + "/" + user.gender;
+         if (this.props.myPosts)
         {
-            this.postsRef = firebase.database().ref().child('posts').orderByChild("userId").equalTo(firebase.auth().currentUser.uid);
+            this.postsRef = firebase.database().ref().child(dbChildRef).orderByChild("userId").equalTo(firebase.auth().currentUser.uid);
         }
         else
         {
-            this.postsRef = firebase.database().ref().child('posts').orderByChild("type").equalTo(this.props.id);
+            this.postsRef = firebase.database().ref().child(dbChildRef);
         }
     };
 
@@ -70,6 +81,7 @@ export default class SectionPage extends Component
 
                 <div>
                     <Link className="ui blue large button" to="/">الرئيسية</Link>
+                    {this.state.user && <Link className="ui blue large button" to={"/my-posts/" + this.props.id + "/" + this.state.user.gender}>منشوراتي</Link>}
                     <Link className="ui green large button" to={"/write/" + this.props.id}>اكتب منشور</Link>
                 </div>
 
@@ -81,7 +93,7 @@ export default class SectionPage extends Component
 
                     <Divider hidden/>
 
-                    {keys.length > 0 && <PostList posts={this.state.posts}/>}
+                    {keys.length > 0 && <PostList sectionId={this.props.id} posts={this.state.posts}/>}
                     {(keys.length === 0 && !this.state.processing) && this.noDataFound()}
 
                     <Divider hidden/>
@@ -99,7 +111,7 @@ export default class SectionPage extends Component
                 <Divider hidden/>
 
                 <Icon color={'blue'} name={'database'} size={'huge'}/>
-                <Header as={'h2'}>لا توجد بيانات</Header>
+                <Header as={'h2'}>{this.state.error ? 'توجد مشكلة' : 'لا توجد بيانات'}</Header>
 
                 <Divider hidden/>
             </div>

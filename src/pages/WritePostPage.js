@@ -113,7 +113,7 @@ export default class WritePostPage extends Component
     validate = () =>
     {
         let title = this.state.title;
-        let content = draftToHtml(convertToRaw(this.state.editorState.getCurrentContent()));
+        let content = this.state.editorState ? draftToHtml(convertToRaw(this.state.editorState.getCurrentContent())) : '';
 
         let messages = [];
         let error = false;
@@ -167,7 +167,8 @@ export default class WritePostPage extends Component
                 type_gender : this.props.sectionId + "_" + user.gender
             };
 
-            let newPost = firebase.database().ref().child("posts").push();
+            let postsRef = "posts/" + this.props.sectionId + "/" + user.gender;
+            let newPost = firebase.database().ref().child(postsRef).push();
             await newPost.set(post);
 
             if (this.state.file)

@@ -20,7 +20,7 @@ export default class Post extends Component
                         {
                             this.props.canEdit &&
                             <div style={{float : 'left'}}>
-                                <Link className="ui yellow button" to={"/post/edit/" + this.props.id} >تعديل</Link>
+                                <Link className="ui yellow button" to={"/post/edit/" + this.props.sectionId + "/" + this.props.gender + "/" + this.props.id} >تعديل</Link>
                                 <Button onClick={() => this.props.deleteAction()} color={'red'}>حذف</Button>
                             </div>
                         }
