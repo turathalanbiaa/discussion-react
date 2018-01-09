@@ -20,7 +20,7 @@ export default function(state=initialState , action)
             return {isLogin : true , processing : false , error : false};
 
         case 'CREATING_USER':
-            return {isLogin : true , processing : true , error : false};
+            return {isLogin : false , processing : true , error : false};
 
         case 'USER_CREATED':
             return {isLogin : true , processing : false , error : false};

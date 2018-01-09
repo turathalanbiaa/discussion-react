@@ -8,6 +8,11 @@ export default class FirebaseUtils
         return new Promise(function(resolve , reject)
         {
             let currentUser = firebase.auth().currentUser;
+            if (currentUser === null)
+            {
+                resolve({gender : null , level : null , type : null});
+                return;
+            }
             firebase.database().ref().child(`users/${currentUser.uid}`).once("value").then( snap =>
             {
                 let user = snap.val();

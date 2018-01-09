@@ -19,6 +19,7 @@ class RouterPage extends Component
 
     render()
     {
+        console.log(this.props);
         return (
             <BrowserRouter>
 
