@@ -167,7 +167,7 @@ export default class WritePostPage extends Component
                 type_gender : this.props.sectionId + "_" + user.gender
             };
 
-            let postsRef = "posts/" + this.props.sectionId + "/" + user.gender;
+            let postsRef = "posts/" + this.props.sectionId;
             let newPost = firebase.database().ref().child(postsRef).push();
             await newPost.set(post);
 
@@ -203,7 +203,7 @@ export default class WritePostPage extends Component
 
     uploadFile = (postKey) =>
     {
-        let fileRef = firebase.storage().ref(`posts/${postKey}`);
+        let fileRef = firebase.storage().ref(`posts/${this.props.sectionId}/${postKey}`);
         let task = fileRef.put(this.state.file);
         let self = this;
         task.on("state_changed",
@@ -217,14 +217,14 @@ export default class WritePostPage extends Component
             function error()
             {
                 self.setState({fileUploadState: 'error', error: true, processing: false});
-                firebase.database().ref().child("posts/" + postKey).set({});
+                firebase.database().ref().child("posts/" + self.props.sectionId + "/" + postKey).set({});
             },
 
             function complete()
             {
                 self.savingDone();
                 let downloadUrl = task.snapshot.downloadURL;
-                firebase.database().ref().child(`posts/${postKey}/photoUrl`).set(downloadUrl);
+                firebase.database().ref().child(`posts/${self.props.sectionId}/${postKey}/photoUrl`).set(downloadUrl);
                 self.setState({fileUploadState: 'done', error: false, processing: false});
             }
         )

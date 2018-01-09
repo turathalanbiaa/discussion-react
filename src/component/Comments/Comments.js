@@ -14,12 +14,12 @@ export default class Comments extends Component
 
     componentDidMount()
     {
-        this.load(this.props.postId , this.props.sectionId , this.props.gender);
+        this.load(this.props.postId , this.props.sectionId );
     }
 
     componentWillReceiveProps(next)
     {
-        this.load(next.postId , next.sectionId , next.gender);
+        this.load(next.postId , next.sectionId);
     }
 
     componentWillUnmount()
@@ -27,11 +27,11 @@ export default class Comments extends Component
         this.detach();
     }
 
-    load = (id , sectionId , gender) =>
+    load = (id , sectionId) =>
     {
         this.detach();
 
-        let commentRefString = "comments/" + sectionId + "/" + gender + "/" + id;
+        let commentRefString = "comments/" + sectionId + "/" + id;
         this.setState({loading: true});
         this.commentsRef = firebase.database().ref().child(commentRefString);
         this.commentsRef.on("value", snap =>

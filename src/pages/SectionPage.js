@@ -54,7 +54,7 @@ export default class SectionPage extends Component
         let user = await FirebaseUtils.getCurrentUser();
         this.setState({user : user});
 
-        let dbChildRef = "posts/" + this.props.id + "/" + user.gender;
+        let dbChildRef = "posts/" + this.props.id;
          if (this.props.myPosts)
         {
             this.postsRef = firebase.database().ref().child(dbChildRef).orderByChild("userId").equalTo(firebase.auth().currentUser.uid);

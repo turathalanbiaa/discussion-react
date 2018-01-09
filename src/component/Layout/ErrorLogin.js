@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Image, Header , Button , Divider} from 'semantic-ui-react';
+import {Button, Header, Image} from 'semantic-ui-react';
 
 export default class ErrorLogin extends Component
 {

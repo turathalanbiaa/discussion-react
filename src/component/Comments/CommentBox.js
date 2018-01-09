@@ -36,7 +36,7 @@ export default class CommentBox extends Component
         try
         {
             let user = await FirebaseUtils.getCurrentUser();
-            let ref = "comments/" + this.props.sectionId + "/" + this.props.gender + "/" + this.props.postId;
+            let ref = "comments/" + this.props.sectionId + "/" + this.props.postId;
             let comment = firebase.database().ref().child(ref).push();
             await comment.set({
                 comment: this.state.comment,

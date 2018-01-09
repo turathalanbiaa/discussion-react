@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
-import {BrowserRouter , Link} from 'react-router-dom';
+import {BrowserRouter} from 'react-router-dom';
 import {connect} from 'react-redux';
 import {loginOrCreateFirebaseUser} from "../data/actions/manageUser";
 import Logging from "../component/Layout/Logging";
 import AllRoutes from "../component/Layout/AllRoutes";
-import {Header , Image , Container , Divider , Segment} from 'semantic-ui-react';
+import {Container, Header, Image} from 'semantic-ui-react';
 import ErrorLogin from "../component/Layout/ErrorLogin";
 
 

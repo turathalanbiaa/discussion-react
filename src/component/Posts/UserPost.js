@@ -14,7 +14,7 @@ export default class UserPost extends Component
 
     componentWillReceiveProps(next)
     {
-        this.props.userId && this.loadPosts();
+        this.props.userId && this.loadPosts(next.sectionId);
     }
 
     componentWillUnmount()
@@ -22,11 +22,11 @@ export default class UserPost extends Component
         this.detach();
     }
 
-    loadPosts = () =>
+    loadPosts = (sectionId) =>
     {
         this.detach();
         this.setState({loading: true , post : {}});
-        this.postRef = firebase.database().ref().child('posts').orderByChild("userId").equalTo(this.props.userId);
+        this.postRef = firebase.database().ref().child('posts/' + sectionId).orderByChild("userId").equalTo(this.props.userId);
         this.postRef.on("value", snap =>
         {
             if (snap.val() === null)
@@ -77,7 +77,7 @@ export default class UserPost extends Component
                     <Segment className="noSegment" color={'blue'}>
                         <div>
                             <Header>مواضيع هذا العضو : </Header>
-                            <PostList posts={this.state.posts}/>
+                            <PostList sectionId={this.props.sectionId} posts={this.state.posts}/>
                         </div>
                     </Segment>
                 </div>

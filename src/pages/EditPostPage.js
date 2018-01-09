@@ -30,18 +30,19 @@ export default class EditPostPage extends Component
 
     componentDidMount()
     {
-        this.loadPost(this.props.postId , this.props.sectionId , this.props.gender);
+        this.loadPost(this.props.postId , this.props.sectionId );
     }
 
-    loadPost = (id , sectionId , gender) =>
+    loadPost = (id , sectionId) =>
     {
         this.setState({loading: true});
 
         this.detach();
-        this.postRef = firebase.database().ref().child("posts/" + sectionId + "/" + gender + "/" + id);
+        this.postRef = firebase.database().ref().child("posts/" + sectionId + "/" + id);
         this.postRef.once("value", snap =>
         {
             let post = snap.val();
+            console.log(post);
             if (post === null)
             {
                 this.setState({post: {}, loading: false});
@@ -49,7 +50,7 @@ export default class EditPostPage extends Component
             }
 
             this.setState({post: snap.val(), loading: false} , this.setupInputs);
-        });
+        } , (e) => console.log(e));
     };
 
     setupInputs = () =>
@@ -108,10 +109,7 @@ export default class EditPostPage extends Component
 
                 <Segment className="noSegment" style={{minHeight: '500px'}}>
                     {
-                        !this.props.loading && Object.keys(this.state.post).length > 0 ?
-                            this.renderEditPage()
-                            :
-                            <Loader active/>
+                        this.props.loading ? <Loader active/> : (Object.keys(this.state.post).length > 0 ? this.renderEditPage() : <Header textAlign={'center'} size={'large'}>لا توجد بيانات</Header>)
                     }
                 </Segment>
 
@@ -243,7 +241,7 @@ export default class EditPostPage extends Component
             }
 
 
-            let newPost = firebase.database().ref().child("posts/" + this.props.sectionId + "/" + this.props.gender + "/" + this.props.postId);
+            let newPost = firebase.database().ref().child("posts/" + this.props.sectionId + "/" + this.props.postId);
             await newPost.set(post);
 
             if (this.state.file)
@@ -278,7 +276,7 @@ export default class EditPostPage extends Component
 
     uploadFile = (postKey) =>
     {
-        let fileRef = firebase.storage().ref(`posts/${postKey}`);
+        let fileRef = firebase.storage().ref(`posts/${this.props.sectionId}/${postKey}`);
         let task = fileRef.put(this.state.file);
         let self = this;
         task.on("state_changed",
@@ -292,14 +290,14 @@ export default class EditPostPage extends Component
             function error()
             {
                 self.setState({fileUploadState: 'error', error: true, processing: false});
-                firebase.database().ref().child("posts/" + postKey).set({});
+                firebase.database().ref().child("posts/" + self.props.sectionId + "/" + postKey).set({});
             },
 
             function complete()
             {
                 self.savingDone();
                 let downloadUrl = task.snapshot.downloadURL;
-                firebase.database().ref().child(`posts/${postKey}/photoUrl`).set(downloadUrl);
+                firebase.database().ref().child(`posts/${self.props.sectionId}/${postKey}/photoUrl`).set(downloadUrl);
                 self.setState({fileUploadState: 'done', error: false, processing: false});
             }
         )

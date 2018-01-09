@@ -8,7 +8,7 @@ export default class PostList extends Component
     {
 
         let keys = Object.keys(this.props.posts);
-
+        keys = keys.reverse();
         return (
             <Grid columns={2} stackable>
 

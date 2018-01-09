@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import firebase from './../Firebase';
-import Post from "../component/Post";
+import Post from "../component/Posts/Post";
 import {Header, Loader, Segment} from 'semantic-ui-react';
 import Comments from "../component/Comments/Comments";
 import {Link} from 'react-router-dom';
@@ -19,8 +19,7 @@ export default class PostPage extends Component
     componentDidMount()
     {
         let sectionId = this.props.sectionId;
-        let gender = this.props.gender;
-        this.loadPost(this.props.id , sectionId , gender);
+        this.loadPost(this.props.id , sectionId);
 
         FirebaseUtils.getCurrentUser().then((user) =>
         {
@@ -38,11 +37,11 @@ export default class PostPage extends Component
         this.detachPost();
     }
 
-    loadPost = (id , sectionId , gender) =>
+    loadPost = (id , sectionId) =>
     {
         this.setState({loading: true});
         this.detachPost();
-        let dbRef = "posts/" + sectionId + "/" + gender + "/" + id;
+        let dbRef = "posts/" + sectionId + "/" + id;
         this.postRef = firebase.database().ref().child(dbRef);
         this.postRef.on("value", snap =>
         {
@@ -69,8 +68,8 @@ export default class PostPage extends Component
     {
         this.detachPost();
         this.setState({loading: true});
-        let postsRef = "posts/" + this.props.sectionId + "/" + this.props.gender + "/" + this.props.id;
-        let commentsRef = "comments/" + this.props.sectionId + "/" + this.props.gender + "/" + this.props.id;
+        let postsRef = "posts/" + this.props.sectionId + "/" + this.props.id;
+        let commentsRef = "comments/" + this.props.sectionId + "/" + this.props.id;
         //REMOVE COMMENTS BEFORE POSTS SO SECURITY RULES WILL PASS
         await firebase.database().ref().child(commentsRef).remove();
         await firebase.database().ref().child(postsRef).remove();

@@ -1,0 +1,286 @@
+{
+  "rules": {
+    "posts": {
+      "1": {
+        ".read": "auth !== null &&
+        (
+        root.child(
+        'users/'
+        +
+        auth.uid
+        +
+        '/gender'
+        ).val()
+        ===
+        '1'
+        |
+        |
+        root.child(
+        'users/'
+        +
+        auth.uid
+        +
+        '/type'
+        ).val()
+        ===
+        '3'
+        )
+        ",
+
+        "$postId": {
+          ".read": "auth !== null &&
+          (
+          root.child(
+          'users/'
+          +
+          auth.uid
+          +
+          '/gender'
+          ).val()
+          ===
+          '1'
+          |
+          |
+          root.child(
+          'users/'
+          +
+          auth.uid
+          +
+          '/type'
+          ).val()
+          ===
+          '3'
+          )
+          ",
+
+          ".validate": "auth !== null &&
+          (
+          (auth.uid
+          ===
+          newData.child(
+          'userId'
+          ).val()
+          &
+          &
+          root.child(
+          'users/'
+          +
+          auth.uid
+          +
+          '/gender'
+          ).val()
+          ===
+          '1'
+          )
+          |
+          |
+          root.child(
+          'users/'
+          +
+          auth.uid
+          +
+          '/type'
+          ).val()
+          ===
+          '3'
+          )
+          &
+          &
+          newData.hasChildren([
+  'title',
+  'content',
+  'gender',
+  'type',
+  'level',
+  'userId',
+  'userDisplayName',
+  'time'
+]) &&
+newData.child('time').val() === now",
+
+".write": "auth !== null && (data.exists() ? ( data.child('userId').val() === auth.uid || root.child('users/' + auth.uid + '/type').val() === '3' ) :  true )"
+}
+},
+"2": {
+".read": "auth !== null &&
+( root.child('users/' + auth.uid + '/gender').val() === '2' || root.child('users/' + auth.uid + '/type').val() === '3' )",
+
+"$postId": {
+".read": "auth !== null &&
+( root.child('users/' + auth.uid + '/gender').val() === '2' || root.child('users/' + auth.uid + '/type').val() === '3' )",
+
+".validate": "auth !== null &&
+(
+( auth.uid === newData.child('userId').val() && root.child('users/' + auth.uid + '/gender').val() === '2' ) ||
+root.child('users/' + auth.uid + '/type').val() === '3'
+) &&
+newData.hasChildren([
+'title', 'content', 'gender', 'type', 'level', 'userId', 'userDisplayName', 'time'
+]) &&
+newData.child('time').val() === now",
+
+".write": "auth !== null && ( data.exists() ? ( data.child('userId').val() === auth.uid || root.child('users/' + auth.uid + '/type').val() === '3' ) :  true )"
+}
+},
+"3": {
+".read": "auth !== null &&
+( root.child('users/' + auth.uid + '/gender').val() === '2' || root.child('users/' + auth.uid + '/type').val() === '3' || root.child('users/' + auth.uid + '/type').val() === '2' )",
+
+"$postId": {
+".read": "auth !== null &&
+( root.child('users/' + auth.uid + '/gender').val() === '2' || root.child('users/' + auth.uid + '/type').val() === '3' || root.child('users/' + auth.uid + '/type').val() === '2' )",
+
+".validate": "auth !== null &&
+(
+( auth.uid === newData.child('userId').val() && root.child('users/' + auth.uid + '/gender').val() === '2' ) ||
+root.child('users/' + auth.uid + '/type').val() === '3'  || root.child('users/' + auth.uid + '/type').val() === '2'
+) &&
+newData.hasChildren([
+'title', 'content', 'gender', 'type', 'level', 'userId', 'userDisplayName', 'time'
+]) &&
+newData.child('time').val() === now",
+
+".write": "auth !== null && (data.exists() ? ( data.child('userId').val() === auth.uid || root.child('users/' + auth.uid + '/type').val() === '3' ) :  true )"
+}
+},
+"$sectionId": {
+".read": "auth !== null",
+"$postId": {
+".read": "auth !== null",
+".validate": "auth !== null &&
+(
+auth.uid === newData.child('userId').val() || root.child('users/' + auth.uid + '/type').val() === '3'
+) &&
+newData.hasChildren([
+'title', 'content', 'gender', 'type', 'level', 'userId', 'userDisplayName', 'time'
+]) &&
+newData.child('time').val() === now",
+
+".write": "auth !== null && (data.exists() ? ( data.child('userId').val() === auth.uid || root.child('users/' + auth.uid + '/type').val() === '3' ) :  true )"
+}
+}
+},
+"comments": {
+"1": {
+"$postId": {
+".read": "auth !== null &&
+( root.child('users/' + auth.uid + '/gender').val() === '1' || root.child('users/' + auth.uid + '/type').val() === '3' )",
+
+".write": "auth !== null &&
+(
+root.child('posts/1/' + $postId +'/userId').val() === auth.uid ||
+root.child('users/' + auth.uid + '/type').val() === '3'
+)" ,
+
+"$commentId": {
+".read": "auth !== null &&
+( root.child('users/' + auth.uid + '/gender').val() === '1' || root.child('users/' + auth.uid + '/type').val() === '3' )",
+
+".validate": "auth !== null &&
+(
+(auth.uid === newData.child('userId').val() && root.child('users/' + auth.uid + '/gender').val() === '1') ||
+root.child('users/' + auth.uid + '/type').val() === '3'
+) &&
+newData.hasChildren([
+'comment', 'userId', 'gender', 'userDisplayName', 'time'
+]) &&
+newData.child('time').val() === now",
+
+".write": "auth !== null && (data.exists() ? ( data.child('userId').val() === auth.uid || root.child('users/' + auth.uid + '/type').val() === '3' ) :  true )"
+}
+}
+},
+"2": {
+"$postId": {
+".read": "auth !== null &&
+( root.child('users/' + auth.uid + '/gender').val() === '2' || root.child('users/' + auth.uid + '/type').val() === '3' )",
+
+
+".write": "auth !== null &&
+(
+root.child('posts/2/' + $postId +'/userId').val() === auth.uid ||
+root.child('users/' + auth.uid + '/type').val() === '3'
+)" ,
+
+"$commentId": {
+".read": "auth !== null &&
+( root.child('users/' + auth.uid + '/gender').val() === '2' || root.child('users/' + auth.uid + '/type').val() === '3' )",
+
+".validate": "auth !== null &&
+(
+( auth.uid === newData.child('userId').val() && root.child('users/' + auth.uid + '/gender').val() === '2' ) ||
+root.child('users/' + auth.uid + '/type').val() === '3'
+) &&
+newData.hasChildren([
+'comment', 'userId', 'gender', 'userDisplayName', 'time'
+]) &&
+newData.child('time').val() === now",
+
+".write": "auth !== null && (data.exists() ? ( data.child('userId').val() === auth.uid || root.child('users/' + auth.uid + '/type').val() === '3' ) :  true )"
+}
+}
+},
+"3": {
+"$postId": {
+".read": "auth !== null &&
+( root.child('users/' + auth.uid + '/gender').val() === '2' || root.child('users/' + auth.uid + '/type').val() === '3' || root.child('users/' + auth.uid + '/type').val() === '2' )",
+
+
+".write" : "auth !== null &&
+(
+root.child('posts/3/' + $postId +'/userId').val() === auth.uid ||
+root.child('users/' + auth.uid + '/type').val() === '3'
+)" ,
+
+
+"$commentId": {
+".read": "auth !== null &&
+( root.child('users/' + auth.uid + '/gender').val() === '2' || root.child('users/' + auth.uid + '/type').val() === '3' || root.child('users/' + auth.uid + '/type').val() === '2' )",
+
+".validate": "auth !== null &&
+(
+( auth.uid === newData.child('userId').val() && root.child('users/' + auth.uid + '/gender').val() === '2' ) ||
+root.child('users/' + auth.uid + '/type').val() === '3'  || root.child('users/' + auth.uid + '/type').val() === '2'
+) &&
+newData.hasChildren([
+'comment', 'userId', 'gender', 'userDisplayName', 'time'
+]) &&
+newData.child('time').val() === now",
+
+".write": "auth !== null && (data.exists() ? ( data.child('userId').val() === auth.uid || root.child('users/' + auth.uid + '/type').val() === '3' ) :  true )"
+}
+}
+},
+"$sectionId": {
+"$postId": {
+".read": "auth !== null",
+".write": "auth !== null &&
+(
+root.child('posts/' + $sectionId  + '/' + $postId +'/userId').val() === auth.uid ||
+root.child('users/' + auth.uid + '/type').val() === '3'
+)" ,
+
+"$commentId": {
+".read": "auth !== null",
+".validate": "auth !== null &&
+(
+auth.uid === newData.child('userId').val() || root.child('users/' + auth.uid + '/type').val() === '3'
+) &&
+newData.hasChildren([
+'comment', 'userId', 'gender', 'userDisplayName', 'time'
+]) &&
+newData.child('time').val() === now",
+
+".write": "auth !== null && (data.exists() ? ( data.child('userId').val() === auth.uid || root.child('users/' + auth.uid + '/type').val() === '3' ) :  true )"
+}
+}
+}
+},
+"users": {
+".read": "auth !== null",
+"$userId": {
+".write": "auth !== null && $userId === auth.uid"
+}
+}
+}
+}

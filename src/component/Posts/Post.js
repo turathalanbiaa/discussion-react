@@ -1,6 +1,6 @@
 import React , {Component} from 'react';
 import {Header , Image , Divider , Button} from 'semantic-ui-react';
-import TimeUtils from "./../utils/TimeUtils";
+import TimeUtils from "../../utils/TimeUtils";
 import {Link} from 'react-router-dom';
 
 export default class Post extends Component
